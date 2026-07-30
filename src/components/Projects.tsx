@@ -1,6 +1,7 @@
 import { content } from '../content'
 import { useStaggeredReveal } from '../hooks/useReveal'
-import { useRef, useState } from 'react'
+
+const accentColors = ['#fef08a', '#bfdbfe', '#fecaca', '#d1fae5', '#e9d5ff', '#fed7aa']
 
 export default function Projects() {
   const count = content.projects.length
@@ -9,18 +10,40 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      style={{ padding: '6rem 1.5rem', maxWidth: 1024, margin: '0 auto' }}
+      style={{ padding: '5rem 1.5rem', maxWidth: 1024, margin: '0 auto' }}
     >
       <div
         style={{
-          marginBottom: '3rem',
           opacity: revealed ? 1 : 0,
-          transform: revealed ? 'translateY(0)' : 'translateY(20px)',
+          transform: revealed ? 'translateY(0)' : 'translateY(24px)',
           transition: 'opacity 0.6s ease, transform 0.6s ease',
         }}
       >
-        <span className="section-label">03 / Projects</span>
-        <h2 className="section-title">Work</h2>
+        <div
+          style={{
+            display: 'inline-block',
+            border: '2px solid #1a1a1a',
+            boxShadow: '3px 3px 0 #1a1a1a',
+            padding: '0.3rem 0.8rem',
+            marginBottom: '1rem',
+            background: '#bfdbfe',
+            fontWeight: 600,
+            fontSize: '0.8rem',
+          }}
+        >
+          03 / Projects
+        </div>
+
+        <h2
+          style={{
+            fontSize: '2.5rem',
+            fontWeight: 700,
+            letterSpacing: '-0.03em',
+            marginBottom: '2rem',
+          }}
+        >
+          Work
+        </h2>
       </div>
 
       <div ref={ref} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -28,6 +51,7 @@ export default function Projects() {
           <ProjectCard
             key={project.id}
             project={project}
+            accent={accentColors[i % accentColors.length]}
             delay={delays[i]}
             revealed={revealed}
           />
@@ -39,128 +63,144 @@ export default function Projects() {
 
 function ProjectCard({
   project,
+  accent,
   delay,
   revealed,
 }: {
   project: (typeof content.projects)[number]
+  accent: string
   delay: number
   revealed: boolean
 }) {
-  const [imgErr, setImgErr] = useState(false)
-  const cardRef = useRef<HTMLDivElement>(null)
-
   return (
     <div
-      ref={cardRef}
       style={{
-        border: '1px solid #222',
+        border: '3px solid #1a1a1a',
+        boxShadow: '7px 7px 0 #1a1a1a',
         padding: '1.5rem',
+        background: '#fffdf9',
         display: 'grid',
-        gridTemplateColumns: '120px 1fr',
-        gap: '1.5rem',
-        alignItems: 'start',
-        transition: `all 0.3s ease, opacity 0.6s ease ${delay}s, transform 0.6s ease ${delay}s`,
+        gridTemplateColumns: '1fr',
+        gap: '1rem',
+        transition: `all 0.2s ease, opacity 0.6s ease ${delay}s, transform 0.6s ease ${delay}s`,
         opacity: revealed ? 1 : 0,
         transform: revealed ? 'translateY(0)' : 'translateY(20px)',
       }}
-      onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#64ffda'; e.currentTarget.style.background = '#0f0f0f' }}
-      onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#222'; e.currentTarget.style.background = 'transparent' }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'translate(-3px,-3px)'
+        e.currentTarget.style.boxShadow = '10px 10px 0 #1a1a1a'
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'translate(0,0)'
+        e.currentTarget.style.boxShadow = '7px 7px 0 #1a1a1a'
+      }}
     >
-      <div
-        style={{
-          width: 120,
-          height: 120,
-          border: '1px solid #333',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          overflow: 'hidden',
-          background: imgErr ? '#111' : 'transparent',
-        }}
-      >
-        {!imgErr && project.logo ? (
-          <img
-            src={project.logo}
-            alt={`${project.title} logo`}
-            style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '0.5rem' }}
-            onError={() => setImgErr(true)}
-          />
-        ) : (
-          <span style={{ fontSize: '2rem', color: '#333', fontFamily: 'JetBrains Mono, monospace' }}>
-            {String(project.id).padStart(2, '0')}
-          </span>
-        )}
-      </div>
-
-      <div>
-        <h3
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
+        <div
           style={{
-            fontSize: '1.25rem',
-            fontWeight: 500,
-            marginBottom: '0.5rem',
-            letterSpacing: '-0.02em',
+            width: 32,
+            height: 32,
+            background: accent,
+            border: '2px solid #1a1a1a',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontWeight: 700,
+            fontSize: '0.8rem',
+            flexShrink: 0,
           }}
         >
-          {project.title}
-        </h3>
-        <p style={{ color: '#888', fontSize: '0.9rem', lineHeight: 1.6, marginBottom: '1rem' }}>
-          {project.description}
-        </p>
-
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '1rem' }}>
-          {project.tags.filter(Boolean).map((tag) => (
-            <span
-              key={tag}
-              style={{
-                padding: '0.15rem 0.5rem',
-                fontSize: '0.7rem',
-                fontFamily: 'JetBrains Mono, monospace',
-                color: '#555',
-                border: '1px solid #333',
-              }}
-            >
-              {tag}
-            </span>
-          ))}
+          {String(project.id).padStart(2, '0')}
         </div>
 
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          {project.liveUrl && project.liveUrl !== 'still in progress' && (
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                fontSize: '0.8rem',
-                color: '#64ffda',
-                fontFamily: 'JetBrains Mono, monospace',
-                borderBottom: '1px solid transparent',
-                transition: 'border-color 0.2s',
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.borderBottomColor = '#64ffda' }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderBottomColor = 'transparent' }}
-            >
-              Live ↗
-            </a>
-          )}
-          {project.githubUrl && (
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                fontSize: '0.8rem',
-                color: '#888',
-                fontFamily: 'JetBrains Mono, monospace',
-                borderBottom: '1px solid transparent',
-                transition: 'all 0.2s',
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = '#f0f0f0'; e.currentTarget.style.borderBottomColor = '#666' }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = '#888'; e.currentTarget.style.borderBottomColor = 'transparent' }}
-            >
-              Code ↗
-            </a>
-          )}
+        <div style={{ flex: 1 }}>
+          <h3
+            style={{
+              fontSize: '1.3rem',
+              fontWeight: 700,
+              letterSpacing: '-0.02em',
+              marginBottom: '0.4rem',
+            }}
+          >
+            {project.title}
+          </h3>
+          <p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.6, marginBottom: '1rem' }}>
+            {project.description}
+          </p>
+
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '1rem' }}>
+            {project.tags.filter(Boolean).map((tag) => (
+              <span
+                key={tag}
+                style={{
+                  padding: '0.2rem 0.6rem',
+                  fontSize: '0.7rem',
+                  fontWeight: 600,
+                  border: '2px solid #1a1a1a',
+                  background: accent,
+                }}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          <div style={{ display: 'flex', gap: '0.75rem' }}>
+            {project.liveUrl && project.liveUrl !== 'still in progress' && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  padding: '0.4rem 1rem',
+                  fontWeight: 600,
+                  fontSize: '0.85rem',
+                  border: '2px solid #1a1a1a',
+                  boxShadow: '3px 3px 0 #1a1a1a',
+                  background: '#fffdf9',
+                  color: '#1a1a1a',
+                  transition: 'all 0.1s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translate(2px,2px)'
+                  e.currentTarget.style.boxShadow = '1px 1px 0 #1a1a1a'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translate(0,0)'
+                  e.currentTarget.style.boxShadow = '3px 3px 0 #1a1a1a'
+                }}
+              >
+                Live ↗
+              </a>
+            )}
+            {project.githubUrl && (
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  padding: '0.4rem 1rem',
+                  fontWeight: 600,
+                  fontSize: '0.85rem',
+                  border: '2px solid #1a1a1a',
+                  boxShadow: '3px 3px 0 #1a1a1a',
+                  background: accent,
+                  color: '#1a1a1a',
+                  transition: 'all 0.1s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translate(2px,2px)'
+                  e.currentTarget.style.boxShadow = '1px 1px 0 #1a1a1a'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translate(0,0)'
+                  e.currentTarget.style.boxShadow = '3px 3px 0 #1a1a1a'
+                }}
+              >
+                Code ↗
+              </a>
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -1,25 +1,11 @@
 import { content } from '../content'
 import { useReveal } from '../hooks/useReveal'
 
-const slugRules: [string, string][] = [
-  ['html', 'html5'],
-  ['css', 'css3'],
-  ['javascript', 'javascript'],
-  ['typescript', 'typescript'],
-  ['react', 'react'],
-  ['tailwind', 'tailwindcss'],
-  ['java', 'java'],
-  ['postgresql', 'postgresql'],
-  ['git', 'git'],
+const bgColors = [
+  '#fef08a', '#bfdbfe', '#fecaca', '#d1fae5',
+  '#e9d5ff', '#fed7aa', '#fecdd3', '#cffafe',
+  '#fef3c7', '#ddd6fe',
 ]
-
-function getSlug(name: string): string {
-  const key = name.toLowerCase().replace(/[\s|/]/g, '')
-  for (const [match, slug] of slugRules) {
-    if (key.includes(match)) return slug
-  }
-  return key
-}
 
 export default function Skills() {
   const { ref, revealed } = useReveal()
@@ -29,77 +15,88 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      style={{ padding: '6rem 1.5rem', maxWidth: 1024, margin: '0 auto' }}
+      style={{ padding: '5rem 1.5rem', maxWidth: 1024, margin: '0 auto' }}
     >
       <div
         style={{
-          marginBottom: '3rem',
           opacity: revealed ? 1 : 0,
-          transform: revealed ? 'translateY(0)' : 'translateY(20px)',
+          transform: revealed ? 'translateY(0)' : 'translateY(24px)',
           transition: 'opacity 0.6s ease, transform 0.6s ease',
         }}
       >
-        <span className="section-label">02 / Skills</span>
-        <h2 className="section-title">Stack</h2>
+        <div
+          style={{
+            display: 'inline-block',
+            border: '2px solid #1a1a1a',
+            boxShadow: '3px 3px 0 #1a1a1a',
+            padding: '0.3rem 0.8rem',
+            marginBottom: '1rem',
+            background: '#e9d5ff',
+            fontWeight: 600,
+            fontSize: '0.8rem',
+          }}
+        >
+          02 / Skills
+        </div>
+
+        <h2
+          style={{
+            fontSize: '2.5rem',
+            fontWeight: 700,
+            letterSpacing: '-0.03em',
+            marginBottom: '2rem',
+          }}
+        >
+          Stack
+        </h2>
       </div>
 
       <div
         ref={ref}
         style={{
           overflow: 'hidden',
-          borderTop: '1px solid #222',
-          borderBottom: '1px solid #222',
-          padding: '1.5rem 0',
+          border: '3px solid #1a1a1a',
+          boxShadow: '7px 7px 0 #1a1a1a',
+          padding: '1.25rem 0',
+          background: '#fffdf9',
         }}
       >
         <div
           style={{
             display: 'flex',
-            gap: '3rem',
+            gap: '1rem',
             width: 'max-content',
-            animation: revealed ? 'scroll 30s linear infinite' : 'none',
-            alignItems: 'center',
+            animation: revealed ? 'scroll 25s linear infinite' : 'none',
           }}
           onMouseEnter={(e) => { e.currentTarget.style.animationPlayState = 'paused' }}
           onMouseLeave={(e) => { e.currentTarget.style.animationPlayState = 'running' }}
         >
           {items.map((skill, i) => {
-            const slug = getSlug(skill.name)
-            const iconUrl = `https://cdn.simpleicons.org/${slug}/${skill.color.replace('#', '')}`
-
+            const color = bgColors[i % bgColors.length]
             return (
               <div
                 key={`${skill.name}-${i}`}
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.75rem',
+                  border: '2px solid #1a1a1a',
+                  boxShadow: '3px 3px 0 #1a1a1a',
+                  padding: '0.5rem 1rem',
+                  fontWeight: 600,
+                  fontSize: '0.9rem',
+                  background: color,
+                  color: '#1a1a1a',
                   flexShrink: 0,
-                  opacity: 0.6,
-                  transition: 'opacity 0.2s',
+                  transition: 'all 0.15s ease',
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.opacity = '1' }}
-                onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.6' }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translate(-2px,-2px)'
+                  e.currentTarget.style.boxShadow = '5px 5px 0 #1a1a1a'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translate(0,0)'
+                  e.currentTarget.style.boxShadow = '3px 3px 0 #1a1a1a'
+                }}
               >
-                <img
-                  src={iconUrl}
-                  alt={skill.name}
-                  style={{ width: 28, height: 28, objectFit: 'contain', flexShrink: 0 }}
-                  onError={(e) => {
-                    (e.currentTarget as HTMLImageElement).style.display = 'none'
-                  }}
-                />
-                <span
-                  style={{
-                    fontWeight: 400,
-                    fontSize: '0.95rem',
-                    color: '#f0f0f0',
-                    whiteSpace: 'nowrap',
-                    fontFamily: 'JetBrains Mono, monospace',
-                  }}
-                >
-                  {skill.name}
-                </span>
+                {skill.name}
               </div>
             )
           })}

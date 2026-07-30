@@ -1,31 +1,26 @@
 import { content } from '../content'
 import { useEffect, useState } from 'react'
 
-const sections = [
-  { id: 'about', label: 'About' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'contact', label: 'Contact' },
-]
+const sections = ['about', 'skills', 'projects', 'contact']
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [active, setActive] = useState('')
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60)
+    const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll)
 
     const observer = new IntersectionObserver(
       (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) setActive(entry.target.id)
+        for (const e of entries) {
+          if (e.isIntersecting) setActive(e.target.id)
         }
       },
       { threshold: 0.3, rootMargin: '-80px 0px 0px 0px' },
     )
 
-    for (const { id } of sections) {
+    for (const id of sections) {
       const el = document.getElementById(id)
       if (el) observer.observe(el)
     }
@@ -44,10 +39,9 @@ export default function Navbar() {
         left: 0,
         right: 0,
         zIndex: 50,
-        background: scrolled ? 'rgba(10,10,10,0.85)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(12px)' : 'none',
-        borderBottom: scrolled ? '1px solid #222' : '1px solid transparent',
-        transition: 'all 0.3s ease',
+        background: scrolled ? '#fffdf9' : 'transparent',
+        borderBottom: scrolled ? '3px solid #1a1a1a' : '3px solid transparent',
+        transition: 'all 0.15s ease',
       }}
     >
       <nav
@@ -63,34 +57,38 @@ export default function Navbar() {
         <a
           href="#"
           style={{
-            fontWeight: 500,
-            fontSize: '1rem',
-            letterSpacing: '-0.02em',
-            color: '#64ffda',
-            fontFamily: 'JetBrains Mono, monospace',
+            fontWeight: 700,
+            fontSize: '1.2rem',
+            border: '2px solid #1a1a1a',
+            boxShadow: '3px 3px 0 #1a1a1a',
+            padding: '0.25rem 0.75rem',
+            background: '#fef08a',
           }}
         >
           {content.name.split(' ').pop()}.
         </a>
 
-        <div style={{ display: 'flex', gap: '1.5rem' }}>
+        <div style={{ display: 'flex', gap: '0.4rem' }}>
           {sections.map((s) => {
-            const isActive = active === s.id
+            const isActive = active === s
             return (
               <a
-                key={s.id}
-                href={`#${s.id}`}
+                key={s}
+                href={`#${s}`}
                 style={{
-                  fontSize: '0.85rem',
-                  fontWeight: 400,
-                  color: isActive ? '#64ffda' : '#666',
-                  transition: 'color 0.15s',
-                  fontFamily: 'JetBrains Mono, monospace',
+                  padding: '0.35rem 0.7rem',
+                  fontWeight: 600,
+                  fontSize: '0.8rem',
+                  textTransform: 'uppercase',
+                  border: '2px solid #1a1a1a',
+                  boxShadow: isActive ? '1px 1px 0 #1a1a1a' : '3px 3px 0 #1a1a1a',
+                  transform: isActive ? 'translate(2px,2px)' : 'none',
+                  background: isActive ? '#1a1a1a' : '#fffdf9',
+                  color: isActive ? '#fffdf9' : '#1a1a1a',
+                  transition: 'all 0.1s ease',
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = '#f0f0f0' }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = isActive ? '#64ffda' : '#666' }}
               >
-                {s.label}
+                {s}
               </a>
             )
           })}
