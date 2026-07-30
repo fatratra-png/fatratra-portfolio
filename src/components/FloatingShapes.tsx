@@ -69,7 +69,7 @@ export default function FloatingShapes() {
     function loop() {
       const t = timeRef.current;
       const target = hideRef.current ? 1 : 0;
-      splitRef.current += (target - splitRef.current) * 0.025;
+      splitRef.current += (target - splitRef.current) * 0.04;
       const split = Math.max(0, Math.min(1, splitRef.current));
 
       for (let i = 0; i < count; i++) {
@@ -116,6 +116,8 @@ export default function FloatingShapes() {
         height: "100%",
         zIndex: 0,
         pointerEvents: "none",
+        opacity: visible ? 1 : 0,
+        transition: "opacity 0.4s ease",
       }}
     >
       <svg

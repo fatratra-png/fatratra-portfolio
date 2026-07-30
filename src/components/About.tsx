@@ -25,10 +25,11 @@ export default function About() {
           style={{
             fontSize: "0.8rem",
             fontWeight: 500,
-            color: "#aaa",
+            color: "#505050",
             letterSpacing: "0.08em",
             textTransform: "uppercase",
             marginBottom: "0.5rem",
+            mixBlendMode: "difference",
           }}
         >
           About
@@ -40,6 +41,8 @@ export default function About() {
             fontWeight: 600,
             letterSpacing: "-0.03em",
             marginBottom: "1.5rem",
+            color: "#e9e9e9",
+            mixBlendMode: "difference",
           }}
         >
           {content.name.split(" ").pop()}
@@ -56,10 +59,11 @@ export default function About() {
 
         <p
           style={{
-            color: "#111",
+            color: "#e9e9e9",
             fontSize: "1.05rem",
             lineHeight: 1.8,
             maxWidth: 600,
+            mixBlendMode: "difference",
           }}
         >
           {content.about}
@@ -69,7 +73,8 @@ export default function About() {
           style={{
             marginTop: "2rem",
             fontSize: "0.85rem",
-            color: "#999",
+            color: "#616161",
+            mixBlendMode: "difference",
           }}
         >
           {content.location}

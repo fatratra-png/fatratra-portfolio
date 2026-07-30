@@ -103,10 +103,11 @@ export default function Hero() {
               padding: '0.75rem 2rem',
               fontWeight: 500,
               fontSize: '0.9rem',
-              background: '#111',
-              color: '#fafafa',
+              background: '#e9e9e9',
+              color: '#000',
               borderRadius: '0.25rem',
               transition: 'opacity 0.2s',
+              mixBlendMode: 'difference',
             }}
             onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.8' }}
             onMouseLeave={(e) => { e.currentTarget.style.opacity = '1' }}

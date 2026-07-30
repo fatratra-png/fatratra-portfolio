@@ -106,7 +106,7 @@ export const content: Content = {
       tags: ["React", "TypeScript", "Tailwind"],
       liveUrl: "https://anti-gaspillage.vercel.app",
       githubUrl: "https://github.com/fatratra-png/itokiana-tsinjo-front",
-      logo: "/assets/",
+      logo: "/assets/tsinjo.png",
     },
     {
       id: 6,
