@@ -1,8 +1,16 @@
 import { useEffect, useState } from 'react'
 
-type Shape = {
+const BLOB_PATHS = [
+  'M35,12 C55,-8 85,2 93,25 C101,48 88,75 68,88 C48,101 12,92 5,68 C-2,44 15,32 35,12 Z',
+  'M45,3 C68,-2 93,8 97,30 C101,52 90,78 70,92 C50,106 18,95 8,72 C-2,49 22,8 45,3 Z',
+  'M52,5 C78,-5 100,12 99,40 C98,68 82,90 58,95 C34,100 5,85 2,58 C-1,31 26,15 52,5 Z',
+  'M30,18 C55,-10 88,0 94,25 C100,50 90,72 68,85 C46,98 10,88 4,65 C-2,42 5,46 30,18 Z',
+  'M40,8 C62,-5 90,5 96,28 C102,51 90,80 68,92 C46,104 15,90 6,68 C-3,46 18,21 40,8 Z',
+]
+
+type Blob = {
   id: number
-  type: 'circle' | 'square'
+  pathIdx: number
   size: number
   x: number
   y: number
@@ -10,13 +18,13 @@ type Shape = {
   delay: number
 }
 
-const shapes: Shape[] = Array.from({ length: 12 }, (_, i) => ({
+const blobs: Blob[] = Array.from({ length: 8 }, (_, i) => ({
   id: i,
-  type: i % 2 === 0 ? 'circle' : 'square',
-  size: Math.random() * 40 + 20,
+  pathIdx: i % BLOB_PATHS.length,
+  size: Math.random() * 140 + 80,
   x: Math.random() * 100,
   y: Math.random() * 100,
-  speed: Math.random() * 8 + 4,
+  speed: Math.random() * 6 + 4,
   delay: Math.random() * 5,
 }))
 
@@ -39,35 +47,39 @@ export default function FloatingShapes() {
       style={{
         position: 'fixed',
         inset: 0,
-        zIndex: -1,
+        zIndex: 40,
         pointerEvents: 'none',
+        mixBlendMode: 'difference',
         overflow: 'hidden',
       }}
     >
-      {shapes.map((s) => {
-        const px = mouse.x * 20 * (s.speed / 6)
-        const py = mouse.y * 20 * (s.speed / 6)
+      {blobs.map((b) => {
+        const px = mouse.x * 15
+        const py = mouse.y * 15
 
         return (
           <div
-            key={s.id}
+            key={b.id}
             style={{
               position: 'absolute',
-              left: `${s.x}%`,
-              top: `${s.y}%`,
+              left: `${b.x}%`,
+              top: `${b.y}%`,
+              width: b.size,
+              height: b.size,
               transform: `translate(${px}px, ${py}px)`,
             }}
           >
             <div
               style={{
-                width: s.size,
-                height: s.size,
-                borderRadius: s.type === 'circle' ? '50%' : '0',
-                border: '1px solid #eaeaea',
-                background: 'rgba(255,255,255,0.4)',
-                animation: `float ${s.speed}s ease-in-out ${s.delay}s infinite alternate`,
+                width: '100%',
+                height: '100%',
+                animation: `float ${b.speed}s ease-in-out ${b.delay}s infinite alternate`,
               }}
-            />
+            >
+              <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%', display: 'block' }}>
+                <path d={BLOB_PATHS[b.pathIdx]} fill="white" />
+              </svg>
+            </div>
           </div>
         )
       })}
@@ -75,7 +87,7 @@ export default function FloatingShapes() {
       <style>{`
         @keyframes float {
           0% { transform: translateY(0); }
-          100% { transform: translateY(-30px); }
+          100% { transform: translateY(-25px); }
         }
       `}</style>
     </div>

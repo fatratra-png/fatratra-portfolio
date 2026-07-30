@@ -30,17 +30,7 @@ a {
   text-decoration: none;
 }
 
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
 @keyframes cursor-pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
-}
-
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
 }
