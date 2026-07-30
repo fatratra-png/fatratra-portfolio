@@ -1,7 +1,7 @@
 import { content } from '../content'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-function useTyping(text: string, speed = 35) {
+function useTyping(text: string, speed = 30) {
   const [displayed, setDisplayed] = useState('')
   const [done, setDone] = useState(false)
 
@@ -25,124 +25,41 @@ function useTyping(text: string, speed = 35) {
 
 export default function Hero() {
   const { displayed, done } = useTyping(content.tagline || 'Building things that live on the internet.')
-  const sectionRef = useRef<HTMLDivElement>(null)
-  const [mouse, setMouse] = useState({ x: 0, y: 0 })
-
-  useEffect(() => {
-    const el = sectionRef.current
-    if (!el) return
-    const onMove = (e: MouseEvent) => {
-      const rect = el.getBoundingClientRect()
-      setMouse({
-        x: (e.clientX - rect.left) / rect.width - 0.5,
-        y: (e.clientY - rect.top) / rect.height - 0.5,
-      })
-    }
-    el.addEventListener('mousemove', onMove)
-    return () => el.removeEventListener('mousemove', onMove)
-  }, [])
 
   return (
     <section
-      ref={sectionRef}
       style={{
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         padding: '6rem 2rem 4rem',
-        position: 'relative',
-        overflow: 'hidden',
+        maxWidth: 1024,
+        margin: '0 auto',
       }}
     >
-      <div
-        style={{
-          position: 'absolute',
-          top: '-10%',
-          right: '-5%',
-          width: '45vw',
-          height: '45vw',
-          maxWidth: 500,
-          maxHeight: 500,
-          borderRadius: '50%',
-          background: '#fef08a',
-          border: '4px solid #1a1a1a',
-          transform: `translate(${mouse.x * 20}px, ${mouse.y * 20}px)`,
-          transition: 'transform 0.1s ease-out',
-          pointerEvents: 'none',
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '-8%',
-          left: '-3%',
-          width: '30vw',
-          height: '30vw',
-          maxWidth: 350,
-          maxHeight: 350,
-          borderRadius: '50%',
-          background: '#bfdbfe',
-          border: '4px solid #1a1a1a',
-          transform: `translate(${mouse.x * -25}px, ${mouse.y * -25}px)`,
-          transition: 'transform 0.1s ease-out',
-          pointerEvents: 'none',
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          top: '20%',
-          left: '8%',
-          width: 24,
-          height: 24,
-          background: '#fecaca',
-          border: '3px solid #1a1a1a',
-          transform: 'rotate(45deg)',
-          opacity: 0.7,
-          pointerEvents: 'none',
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '30%',
-          right: '12%',
-          width: 18,
-          height: 18,
-          background: '#bbf7d0',
-          border: '3px solid #1a1a1a',
-          borderRadius: '50%',
-          opacity: 0.7,
-          pointerEvents: 'none',
-        }}
-      />
-
-      <div style={{ position: 'relative', zIndex: 1, maxWidth: 900, margin: '0 auto', width: '100%' }}>
-        <div
+      <div>
+        <p
           style={{
-            display: 'inline-block',
-            border: '3px solid #1a1a1a',
-            boxShadow: '4px 4px 0 #1a1a1a',
-            padding: '0.4rem 1rem',
-            marginBottom: '1.5rem',
-            background: '#1a1a1a',
-            color: '#fffdf9',
-            fontWeight: 700,
-            fontSize: '0.8rem',
-            fontFamily: 'monospace',
+            fontSize: '0.85rem',
+            fontWeight: 500,
+            color: '#888',
+            marginBottom: '1rem',
+            letterSpacing: '0.05em',
+            textTransform: 'uppercase',
           }}
         >
           {content.title}
-        </div>
+        </p>
 
         <h1
           style={{
-            fontSize: 'clamp(3rem, 12vw, 6rem)',
-            fontWeight: 800,
-            letterSpacing: '-0.04em',
-            lineHeight: 0.9,
+            fontSize: 'clamp(2.5rem, 8vw, 4.5rem)',
+            fontWeight: 600,
+            letterSpacing: '-0.035em',
+            lineHeight: 0.95,
             marginBottom: '1.5rem',
+            maxWidth: 720,
           }}
         >
           {content.name}
@@ -150,11 +67,12 @@ export default function Hero() {
 
         <p
           style={{
-            fontSize: '1.2rem',
-            color: '#555',
-            maxWidth: 560,
+            fontSize: '1.1rem',
+            color: '#666',
+            maxWidth: 480,
             minHeight: '1.8em',
             marginBottom: '2.5rem',
+            lineHeight: 1.5,
           }}
         >
           {displayed}
@@ -162,12 +80,12 @@ export default function Hero() {
             <span
               style={{
                 display: 'inline-block',
-                width: 3,
+                width: 2,
                 height: '1.2em',
-                background: '#1a1a1a',
-                marginLeft: 4,
+                background: '#111',
+                marginLeft: 2,
                 verticalAlign: 'text-bottom',
-                animation: 'cursor-blink 0.8s step-end infinite',
+                animation: 'cursor-pulse 0.8s step-end infinite',
               }}
             />
           )}
@@ -177,28 +95,18 @@ export default function Hero() {
           <a
             href="#projects"
             style={{
-              padding: '0.85rem 2rem',
-              fontWeight: 700,
-              fontSize: '1.05rem',
-              border: '3px solid #1a1a1a',
-              boxShadow: '6px 6px 0 #1a1a1a',
-              background: '#fef08a',
-              color: '#1a1a1a',
-              transition: 'all 0.1s ease',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
+              padding: '0.75rem 2rem',
+              fontWeight: 500,
+              fontSize: '0.9rem',
+              background: '#111',
+              color: '#fafafa',
+              borderRadius: '0.25rem',
+              transition: 'opacity 0.2s',
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translate(3px,3px)'
-              e.currentTarget.style.boxShadow = '3px 3px 0 #1a1a1a'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translate(0,0)'
-              e.currentTarget.style.boxShadow = '6px 6px 0 #1a1a1a'
-            }}
+            onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.8' }}
+            onMouseLeave={(e) => { e.currentTarget.style.opacity = '1' }}
           >
-            See my work ↓
+            See my work
           </a>
           {content.resumeUrl && (
             <a
@@ -206,51 +114,20 @@ export default function Hero() {
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                padding: '0.85rem 2rem',
-                fontWeight: 700,
-                fontSize: '1.05rem',
-                border: '3px solid #1a1a1a',
-                boxShadow: '6px 6px 0 #1a1a1a',
-                background: '#bfdbfe',
-                color: '#1a1a1a',
-                transition: 'all 0.1s ease',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
+                padding: '0.75rem 2rem',
+                fontWeight: 500,
+                fontSize: '0.9rem',
+                border: '1px solid #ddd',
+                borderRadius: '0.25rem',
+                transition: 'border-color 0.2s',
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translate(3px,3px)'
-                e.currentTarget.style.boxShadow = '3px 3px 0 #1a1a1a'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translate(0,0)'
-                e.currentTarget.style.boxShadow = '6px 6px 0 #1a1a1a'
-              }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#111' }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#ddd' }}
             >
-              Resume ↗
+              Resume
             </a>
           )}
         </div>
-      </div>
-
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '1.5rem',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '0.3rem',
-          opacity: 0.4,
-          fontWeight: 700,
-          fontSize: '0.8rem',
-          animation: 'float 2.5s ease-in-out infinite',
-        }}
-      >
-        <span>scroll</span>
-        <span style={{ fontSize: '1.2rem' }}>↓</span>
       </div>
     </section>
   )

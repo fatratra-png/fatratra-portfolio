@@ -1,95 +1,84 @@
 import { content } from '../content'
-
-const bgColors = [
-  '#fef08a', '#bfdbfe', '#fecaca', '#d1fae5',
-  '#e9d5ff', '#fed7aa', '#fecdd3', '#cffafe',
-  '#fef3c7', '#ddd6fe', '#bbf7d0', '#fecaca',
-]
+import { useReveal } from '../hooks/useStaggeredReveal'
 
 export default function Skills() {
-  const skills = content.skills
-  const items = [...skills, ...skills]
+  const { ref, revealed } = useReveal()
 
   return (
     <section
       id="skills"
       style={{
-        padding: '4rem 0',
-        borderTop: '4px solid #1a1a1a',
-        borderBottom: '4px solid #1a1a1a',
-        background: '#fffdf9',
-        overflow: 'hidden',
+        padding: '6rem 2rem',
+        maxWidth: 768,
+        margin: '0 auto',
       }}
     >
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 2rem', marginBottom: '1.5rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <div
-            style={{
-              border: '2px solid #1a1a1a',
-              boxShadow: '3px 3px 0 #1a1a1a',
-              padding: '0.3rem 0.8rem',
-              background: '#e9d5ff',
-              fontWeight: 700,
-              fontSize: '0.8rem',
-              fontFamily: 'monospace',
-            }}
-          >
-            02
-          </div>
-          <h2 style={{ fontSize: '2.2rem', fontWeight: 800, letterSpacing: '-0.03em' }}>
-            Stack
-          </h2>
-        </div>
-      </div>
-
       <div
+        ref={ref}
         style={{
-          borderTop: '3px solid #1a1a1a',
-          borderBottom: '3px solid #1a1a1a',
-          padding: '1rem 0',
-          background: '#fffdf9',
+          opacity: revealed ? 1 : 0,
+          transform: revealed ? 'translateY(0)' : 'translateY(20px)',
+          transition: 'opacity 0.6s ease, transform 0.6s ease',
         }}
       >
+        <p
+          style={{
+            fontSize: '0.8rem',
+            fontWeight: 500,
+            color: '#aaa',
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            marginBottom: '0.5rem',
+          }}
+        >
+          Stack
+        </p>
+        <h2
+          style={{
+            fontSize: '2rem',
+            fontWeight: 600,
+            letterSpacing: '-0.03em',
+            marginBottom: '1.5rem',
+          }}
+        >
+          Skills & Tools
+        </h2>
+
         <div
           style={{
-            display: 'flex',
-            gap: '1rem',
-            width: 'max-content',
-            animation: 'marquee 20s linear infinite',
+            width: '3rem',
+            height: '2px',
+            background: '#111',
+            marginBottom: '1.5rem',
           }}
-          onMouseEnter={(e) => { e.currentTarget.style.animationPlayState = 'paused' }}
-          onMouseLeave={(e) => { e.currentTarget.style.animationPlayState = 'running' }}
-        >
-          {items.map((skill, i) => {
-            const color = bgColors[i % bgColors.length]
-            return (
-              <div
-                key={`${skill.name}-${i}`}
-                style={{
-                  border: '3px solid #1a1a1a',
-                  boxShadow: '4px 4px 0 #1a1a1a',
-                  padding: '0.6rem 1.2rem',
-                  fontWeight: 700,
-                  fontSize: '0.95rem',
-                  background: color,
-                  color: '#1a1a1a',
-                  flexShrink: 0,
-                  transition: 'all 0.15s ease',
-                  whiteSpace: 'nowrap',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translate(-3px,-3px)'
-                  e.currentTarget.style.boxShadow = '7px 7px 0 #1a1a1a'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translate(0,0)'
-                  e.currentTarget.style.boxShadow = '4px 4px 0 #1a1a1a'
-                }}
-              >
-                {skill.name}
-              </div>
-            )
-          })}
+        />
+
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+          {content.skills.map((skill) => (
+            <div
+              key={skill.name}
+              style={{
+                padding: '0.5rem 1rem',
+                border: '1px solid #eaeaea',
+                borderRadius: '0.25rem',
+                background: '#fff',
+                fontSize: '0.85rem',
+                fontWeight: 500,
+                color: '#555',
+                transition: 'border-color 0.2s, color 0.2s',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = '#111'
+                e.currentTarget.style.color = '#111'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = '#eaeaea'
+                e.currentTarget.style.color = '#555'
+              }}
+            >
+              {skill.name}
+            </div>
+          ))}
         </div>
       </div>
     </section>
