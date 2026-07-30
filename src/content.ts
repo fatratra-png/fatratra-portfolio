@@ -5,6 +5,7 @@ export type Project = {
   tags: string[];
   liveUrl: string;
   githubUrl: string;
+  logo: string;
 };
 
 export type Skill = {
@@ -62,6 +63,7 @@ export const content: Content = {
       tags: ["React", "JavaScript", "Tailwind", "ExpressJS", "PostgreSQL"],
       liveUrl: "https://hei-stdhub.vercel.app",
       githubUrl: "https://github.com/hei-tech-dev-team/hei-stdhub",
+      logo: "/assets/hei-stdhub.png",
     },
     {
       id: 2,
@@ -70,6 +72,7 @@ export const content: Content = {
       tags: ["React Native", "TypeScript", ""],
       liveUrl: "still in progress",
       githubUrl: "https://github.com/fatratra-png/irery",
+      logo: "/assets/irery.png",
     },
     {
       id: 3,
@@ -78,6 +81,7 @@ export const content: Content = {
       tags: ["React", "TypeScript", "Tailwind"],
       liveUrl: "still in progress",
       githubUrl: "https://github.com/fatratra-png/the-404th-floor-project",
+      logo: "/assets/404th-floor.png",
     },
   ],
 

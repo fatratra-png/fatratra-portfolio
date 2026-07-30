@@ -2,6 +2,8 @@ import { content } from '../content'
 import { useStaggeredReveal } from '../hooks/useReveal'
 import { useRef, useState } from 'react'
 
+const fallbackColors = ['#fef08a', '#bfdbfe', '#fecaca', '#d1fae5', '#e9d5ff', '#fed7aa']
+
 export default function Projects() {
   const projectCount = content.projects.length
   const { ref, revealed, delays } = useStaggeredReveal<HTMLDivElement>(projectCount)
@@ -72,8 +74,8 @@ function ProjectCard({
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
   const cardRef = useRef<HTMLDivElement>(null)
 
-  const accentColors = ['#fef08a', '#bfdbfe', '#fecaca', '#d1fae5', '#e9d5ff', '#fed7aa']
-  const accent = accentColors[index % accentColors.length]
+  const [imgErr, setImgErr] = useState(false)
+  const accent = fallbackColors[index % fallbackColors.length]
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = cardRef.current
@@ -133,6 +135,34 @@ function ProjectCard({
         onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1) rotate(0deg)' }}
       >
         {String(project.id).padStart(2, '0')}
+      </div>
+
+      <div
+        style={{
+          width: '100%',
+          height: 120,
+          border: '2px solid #1a1a1a',
+          marginBottom: '1rem',
+          overflow: 'hidden',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: imgErr ? accent : '#fffdf9',
+          transition: 'background 0.2s',
+        }}
+      >
+        {!imgErr ? (
+          <img
+            src={project.logo}
+            alt={`${project.title} logo`}
+            style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '0.5rem' }}
+            onError={() => setImgErr(true)}
+          />
+        ) : (
+          <span style={{ fontWeight: 700, fontSize: '2rem', color: '#1a1a1a', opacity: 0.3 }}>
+            {project.title.charAt(0)}
+          </span>
+        )}
       </div>
 
       <h3
