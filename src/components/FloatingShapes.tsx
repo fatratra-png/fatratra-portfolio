@@ -43,14 +43,14 @@ export default function FloatingShapes() {
         "http://www.w3.org/2000/svg",
         "rect",
       );
-      const size = 8 + Math.random() * 22;
+      const size = 4 + Math.random() * 10;
       const x = Math.random() * 80 + 10;
       const y = Math.random() * 80 + 10;
       r.setAttribute("x", `${x}%`);
       r.setAttribute("y", `${y}%`);
       r.setAttribute("width", `${size}`);
       r.setAttribute("height", `${size}`);
-      r.setAttribute("fill", "white");
+      r.setAttribute("fill", "black");
       group.appendChild(r);
       rects.push(r);
 
@@ -83,7 +83,7 @@ export default function FloatingShapes() {
         const cx = d.x + wobX + splitX;
         const cy = d.y + wobY + splitY;
         const s = d.size * (1 - ease * 0.3);
-        const o = Math.max(0, 0.4 - ease * 0.4);
+        const o = Math.max(0, 1 - ease * 1);
         const r = rects[i];
         r.setAttribute("x", `${cx - s / 2}%`);
         r.setAttribute("y", `${cy - s / 2}%`);
@@ -116,7 +116,6 @@ export default function FloatingShapes() {
         height: "100%",
         zIndex: 0,
         pointerEvents: "none",
-        mixBlendMode: "difference",
       }}
     >
       <svg
