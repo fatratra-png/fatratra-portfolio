@@ -10,7 +10,7 @@ export default function Projects() {
       id="projects"
       style={{
         padding: "6rem 2rem",
-        maxWidth: 1024,
+        maxWidth: 1200,
         margin: "0 auto",
         position: "relative",
         zIndex: 45,
@@ -49,15 +49,11 @@ export default function Projects() {
 
       <div
         ref={ref}
-        style={
-          count > 3
-            ? {
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(360px, 1fr))",
-                gap: "1.5rem",
-              }
-            : { display: "flex", flexDirection: "column", gap: "1.5rem" }
-        }
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))",
+          gap: "1.5rem",
+        }}
       >
         {content.projects.map((project, i) => (
           <ProjectCard
@@ -86,7 +82,7 @@ function ProjectCard({
       style={{
         border: "1px solid #333",
         borderRadius: "0.75rem",
-        padding: "1.5rem",
+        padding: "clamp(1rem, 2vw, 1.5rem)",
         background: "#111",
         transition: `all 0.25s ease, opacity 0.6s ease ${delay}s, transform 0.6s ease ${delay}s`,
         opacity: revealed ? 1 : 0,
@@ -126,7 +122,6 @@ function ProjectCard({
               fontSize: "0.9rem",
               lineHeight: 1.7,
               marginBottom: "1rem",
-              maxWidth: 560,
             }}
           >
             {project.description}
@@ -210,8 +205,8 @@ function ProjectCard({
         {project.logo && (
           <div
             style={{
-              width: 80,
-              height: 80,
+              width: "clamp(60px, 10vw, 80px)",
+              height: "clamp(60px, 10vw, 80px)",
               border: "1px solid #333",
               borderRadius: "0.5rem",
               overflow: "hidden",

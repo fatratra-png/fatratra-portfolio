@@ -62,7 +62,7 @@ export default function Navbar() {
     >
       <nav
         style={{
-          maxWidth: 1024,
+          maxWidth: 1200,
           margin: '0 auto',
           padding: '1rem 2rem',
           display: 'flex',

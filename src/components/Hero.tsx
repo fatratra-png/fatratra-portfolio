@@ -28,13 +28,14 @@ export default function Hero() {
 
   return (
     <section
+      id="hero"
       style={{
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         padding: '6rem 2rem 4rem',
-        maxWidth: 1024,
+        maxWidth: 1200,
         margin: '0 auto',
       }}
     >

@@ -43,15 +43,18 @@ export const content: Content = {
 
   resumeUrl: "",
   skills: [
-    { name: "HTML", color: "#e34c26" },
-    { name: "CSS", color: "#563d7c" },
+    { name: "HTML5", color: "#e34c26" },
+    { name: "CSS3", color: "#563d7c" },
     { name: "JavaScript", color: "#f7df1e" },
     { name: "TypeScript", color: "#3178c6" },
     { name: "React", color: "#61dafb" },
+    { name: "React Native", color: "#61dafb" },
     { name: "Tailwind CSS", color: "#38b2ac" },
     { name: "Java", color: "#007396" },
     { name: "PostgreSQL", color: "#336791" },
     { name: "Git", color: "#f05032" },
+    { name: "Vercel", color: "#000000" },
+    { name: "Figma", color: "#f24e1e" },
   ],
 
   projects: [
@@ -67,7 +70,7 @@ export const content: Content = {
     },
     {
       id: 2,
-      title: "irery",
+      title: "Irery",
       description:
         'Did you ever wanted to be "irery" (alone) during night work sessions, Try "Irery" , designed to have the most simple UI ever , just launch on your phone , connect to any bluetooth device and ENJOY BEING IRERY',
       tags: ["React Native", "TypeScript", ""],
@@ -94,6 +97,26 @@ export const content: Content = {
       liveUrl: "still in progress",
       githubUrl: "https://github.com/fatratra-png/feo",
       logo: "/assets/feo.png",
+    },
+    {
+      id: 5,
+      title: "Tsinjo",
+      description:
+        "Coded the frontend part of an project called Tsinjo where i did improve the UX and bring a new UI | Main Owner: Itokiana Rakotoarivelo",
+      tags: ["React", "TypeScript", "Tailwind"],
+      liveUrl: "https://anti-gaspillage.vercel.app",
+      githubUrl: "https://github.com/fatratra-png/itokiana-tsinjo-front",
+      logo: "/assets/",
+    },
+    {
+      id: 6,
+      title: "Noana",
+      description:
+        '"Noana" (hungry) ? What if we could feast on fast foot dishes but with a pinch of originality ...',
+      tags: ["React", "JavaScript", "SvelteKit", "Tailwind"],
+      liveUrl: "still in progress",
+      githubUrl: "https://github.com/fatratra-png/noana",
+      logo: "/assets/",
     },
   ],
 
