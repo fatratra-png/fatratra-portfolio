@@ -1,17 +1,39 @@
 import { content } from '../content'
 import { useEffect, useState } from 'react'
-import { useActiveSection } from '../hooks/useActiveSection'
 
-const sectionIds = ['about', 'skills', 'projects', 'contact']
+const sections = [
+  { id: 'about', label: 'About' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'contact', label: 'Contact' },
+]
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
-  const active = useActiveSection(sectionIds)
+  const [active, setActive] = useState('')
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40)
+    const onScroll = () => setScrolled(window.scrollY > 60)
     window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setActive(entry.target.id)
+        }
+      },
+      { threshold: 0.3, rootMargin: '-80px 0px 0px 0px' },
+    )
+
+    for (const { id } of sections) {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    }
+
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      observer.disconnect()
+    }
   }, [])
 
   return (
@@ -22,9 +44,10 @@ export default function Navbar() {
         left: 0,
         right: 0,
         zIndex: 50,
-        background: scrolled ? '#fffdf9' : 'transparent',
-        borderBottom: scrolled ? '3px solid #1a1a1a' : '3px solid transparent',
-        transition: 'all 0.2s ease',
+        background: scrolled ? 'rgba(10,10,10,0.85)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(12px)' : 'none',
+        borderBottom: scrolled ? '1px solid #222' : '1px solid transparent',
+        transition: 'all 0.3s ease',
       }}
     >
       <nav
@@ -40,51 +63,34 @@ export default function Navbar() {
         <a
           href="#"
           style={{
-            fontWeight: 700,
-            fontSize: '1.25rem',
+            fontWeight: 500,
+            fontSize: '1rem',
             letterSpacing: '-0.02em',
-            transition: 'opacity 0.15s',
+            color: '#64ffda',
+            fontFamily: 'JetBrains Mono, monospace',
           }}
-          onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.6' }}
-          onMouseLeave={(e) => { e.currentTarget.style.opacity = '1' }}
         >
-          {content.name}
+          {content.name.split(' ').pop()}.
         </a>
 
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
-          {sectionIds.map((s) => {
-            const isActive = active === s
+        <div style={{ display: 'flex', gap: '1.5rem' }}>
+          {sections.map((s) => {
+            const isActive = active === s.id
             return (
               <a
-                key={s}
-                href={`#${s}`}
+                key={s.id}
+                href={`#${s.id}`}
                 style={{
-                  padding: '0.4rem 0.8rem',
-                  fontWeight: 600,
-                  fontSize: '0.875rem',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                  border: '2px solid #1a1a1a',
-                  boxShadow: isActive ? '1px 1px 0 #1a1a1a' : '3px 3px 0 #1a1a1a',
-                  transform: isActive ? 'translate(2px, 2px)' : 'translate(0, 0)',
-                  background: isActive ? '#1a1a1a' : '#fffdf9',
-                  color: isActive ? '#fffdf9' : '#1a1a1a',
-                  transition: 'all 0.15s ease',
+                  fontSize: '0.85rem',
+                  fontWeight: 400,
+                  color: isActive ? '#64ffda' : '#666',
+                  transition: 'color 0.15s',
+                  fontFamily: 'JetBrains Mono, monospace',
                 }}
-                onMouseEnter={(e) => {
-                  if (!isActive) {
-                    e.currentTarget.style.transform = 'translate(1px, 1px)'
-                    e.currentTarget.style.boxShadow = '2px 2px 0 #1a1a1a'
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!isActive) {
-                    e.currentTarget.style.transform = 'translate(0, 0)'
-                    e.currentTarget.style.boxShadow = '3px 3px 0 #1a1a1a'
-                  }
-                }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = '#f0f0f0' }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = isActive ? '#64ffda' : '#666' }}
               >
-                {s}
+                {s.label}
               </a>
             )
           })}
