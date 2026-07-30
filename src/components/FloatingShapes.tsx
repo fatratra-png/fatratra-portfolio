@@ -35,13 +35,19 @@ export default function FloatingShapes() {
         points.push([x, y]);
       }
 
-      let d = `M ${points[0][0]} ${points[0][1]}`;
+      let d = "";
       for (let i = 0; i < count; i++) {
-        const p0 = points[i];
-        const p1 = points[(i + 1) % count];
-        const cpx = (p0[0] + p1[0]) / 2 + Math.sin(t + i) * 10;
-        const cpy = (p0[1] + p1[1]) / 2 + Math.cos(t + i) * 10;
-        d += ` Q ${cpx} ${cpy} ${p1[0]} ${p1[1]}`;
+        const prev = points[(i - 1 + count) % count];
+        const cur = points[i];
+        const next = points[(i + 1) % count];
+        const next2 = points[(i + 2) % count];
+        const cp1x = cur[0] + (next[0] - prev[0]) / 6;
+        const cp1y = cur[1] + (next[1] - prev[1]) / 6;
+        const cp2x = next[0] - (next2[0] - cur[0]) / 6;
+        const cp2y = next[1] - (next2[1] - cur[1]) / 6;
+        d += i === 0
+          ? `M ${cur[0]} ${cur[1]} C ${cp1x} ${cp1y} ${cp2x} ${cp2y} ${next[0]} ${next[1]}`
+          : ` C ${cp1x} ${cp1y} ${cp2x} ${cp2y} ${next[0]} ${next[1]}`;
       }
 
       if (pathRef.current) pathRef.current.setAttribute("d", d);
