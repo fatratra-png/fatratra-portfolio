@@ -47,7 +47,7 @@ export const content: Content = {
     { name: "CSS", color: "#563d7c" },
     { name: "JavaScript", color: "#f7df1e" },
     { name: "TypeScript", color: "#3178c6" },
-    { name: "ReactJS | Native", color: "#61dafb" },
+    { name: "React", color: "#61dafb" },
     { name: "Tailwind CSS", color: "#38b2ac" },
     { name: "Java", color: "#007396" },
     { name: "PostgreSQL", color: "#336791" },

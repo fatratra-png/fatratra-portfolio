@@ -1,6 +1,5 @@
 import { content } from '../content'
 import { useReveal } from '../hooks/useReveal'
-import { useEffect, useState } from 'react'
 
 const iconSlug: Record<string, string> = {
   html: 'html5',
@@ -17,26 +16,15 @@ const iconSlug: Record<string, string> = {
 export default function Skills() {
   const { ref, revealed } = useReveal()
   const skills = content.skills
-  const [idx, setIdx] = useState(0)
 
-  useEffect(() => {
-    if (!revealed || skills.length <= 1) return
-    const timer = setInterval(() => {
-      setIdx((p) => (p + 1) % skills.length)
-    }, 2500)
-    return () => clearInterval(timer)
-  }, [revealed, skills.length])
-
-  const go = (i: number) => setIdx(i)
-  const prev = () => setIdx((p) => (p - 1 + skills.length) % skills.length)
-  const next = () => setIdx((p) => (p + 1) % skills.length)
+  const items = [...skills, ...skills, ...skills]
 
   return (
     <section
       id="skills"
       style={{
         padding: '5rem 1.5rem',
-        maxWidth: 640,
+        maxWidth: 768,
         margin: '0 auto',
       }}
     >
@@ -71,154 +59,67 @@ export default function Skills() {
 
         <div
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.75rem',
+            overflow: 'hidden',
+            border: '3px solid #1a1a1a',
+            boxShadow: '5px 5px 0 #1a1a1a',
+            padding: '1.25rem 0',
+            background: '#fffdf9',
+            maskImage: 'linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%)',
           }}
         >
-          <button
-            onClick={prev}
-            style={{
-              width: 40,
-              height: 40,
-              border: '3px solid #1a1a1a',
-              background: '#fffdf9',
-              fontWeight: 700,
-              fontSize: '1.2rem',
-              cursor: 'pointer',
-              boxShadow: '3px 3px 0 #1a1a1a',
-              transition: 'all 0.1s ease',
-              flexShrink: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translate(1px, 1px)'
-              e.currentTarget.style.boxShadow = '2px 2px 0 #1a1a1a'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translate(0, 0)'
-              e.currentTarget.style.boxShadow = '3px 3px 0 #1a1a1a'
-            }}
-          >
-            ←
-          </button>
-
           <div
             style={{
-              flex: 1,
-              overflow: 'hidden',
-              border: '3px solid #1a1a1a',
-              boxShadow: '5px 5px 0 #1a1a1a',
-              background: '#fffdf9',
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                transition: 'transform 0.4s ease',
-                transform: `translateX(-${idx * 100}%)`,
-              }}
-            >
-              {skills.map((skill) => {
-                const key = skill.name.toLowerCase().replace(/[\s|/]/g, '')
-                const slug = iconSlug[key] || key
-                const iconUrl = `https://cdn.simpleicons.org/${slug}/${skill.color.replace('#', '')}`
-
-                return (
-                  <div
-                    key={skill.name}
-                    style={{
-                      minWidth: '100%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '1.25rem',
-                      padding: '2rem 1.5rem',
-                    }}
-                  >
-                    <img
-                      src={iconUrl}
-                      alt={skill.name}
-                      style={{
-                        width: 64,
-                        height: 64,
-                        objectFit: 'contain',
-                        flexShrink: 0,
-                      }}
-                    />
-                    <span
-                      style={{
-                        fontSize: '1.25rem',
-                        fontWeight: 700,
-                        letterSpacing: '-0.02em',
-                      }}
-                    >
-                      {skill.name}
-                    </span>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-
-          <button
-            onClick={next}
-            style={{
-              width: 40,
-              height: 40,
-              border: '3px solid #1a1a1a',
-              background: '#fffdf9',
-              fontWeight: 700,
-              fontSize: '1.2rem',
-              cursor: 'pointer',
-              boxShadow: '3px 3px 0 #1a1a1a',
-              transition: 'all 0.1s ease',
-              flexShrink: 0,
               display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              gap: '2rem',
+              width: 'max-content',
+              animation: revealed ? 'scroll 20s linear infinite' : 'none',
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translate(1px, 1px)'
-              e.currentTarget.style.boxShadow = '2px 2px 0 #1a1a1a'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translate(0, 0)'
-              e.currentTarget.style.boxShadow = '3px 3px 0 #1a1a1a'
-            }}
+            onMouseEnter={(e) => { e.currentTarget.style.animationPlayState = 'paused' }}
+            onMouseLeave={(e) => { e.currentTarget.style.animationPlayState = 'running' }}
           >
-            →
-          </button>
-        </div>
+            {items.map((skill, i) => {
+              const key = skill.name.toLowerCase().replace(/[\s|/]/g, '')
+              const slug = iconSlug[key] || key
+              const iconUrl = `https://cdn.simpleicons.org/${slug}/${skill.color.replace('#', '')}`
 
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '0.5rem',
-            marginTop: '1.25rem',
-          }}
-        >
-          {skills.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => go(i)}
-              style={{
-                width: 12,
-                height: 12,
-                border: '2px solid #1a1a1a',
-                background: idx === i ? '#1a1a1a' : '#fffdf9',
-                cursor: 'pointer',
-                padding: 0,
-                transition: 'all 0.15s ease',
-                boxShadow: idx === i ? '2px 2px 0 #1a1a1a' : 'none',
-                borderRadius: '50%',
-              }}
-              aria-label={`Skill ${i + 1}`}
-            />
-          ))}
+              return (
+                <div
+                  key={`${skill.name}-${i}`}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.65rem',
+                    padding: '0.4rem 0.8rem',
+                    border: '2px solid #1a1a1a',
+                    boxShadow: '3px 3px 0 #1a1a1a',
+                    background: '#fffdf9',
+                    transition: 'all 0.15s ease',
+                    flexShrink: 0,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = skill.color
+                    e.currentTarget.style.transform = 'translate(-2px, -2px)'
+                    e.currentTarget.style.boxShadow = '5px 5px 0 #1a1a1a'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = '#fffdf9'
+                    e.currentTarget.style.transform = 'translate(0, 0)'
+                    e.currentTarget.style.boxShadow = '3px 3px 0 #1a1a1a'
+                  }}
+                >
+                  <img
+                    src={iconUrl}
+                    alt={skill.name}
+                    style={{ width: 28, height: 28, objectFit: 'contain', flexShrink: 0 }}
+                  />
+                  <span style={{ fontWeight: 600, fontSize: '0.9rem', whiteSpace: 'nowrap' }}>
+                    {skill.name}
+                  </span>
+                </div>
+              )
+            })}
+          </div>
         </div>
       </div>
     </section>
