@@ -45,8 +45,8 @@ export default function FloatingShapes() {
       }}
     >
       {shapes.map((s) => {
-        const offsetX = mouse.x * 20 * (s.speed / 6)
-        const offsetY = mouse.y * 20 * (s.speed / 6)
+        const px = mouse.x * 20 * (s.speed / 6)
+        const py = mouse.y * 20 * (s.speed / 6)
 
         return (
           <div
@@ -55,15 +55,20 @@ export default function FloatingShapes() {
               position: 'absolute',
               left: `${s.x}%`,
               top: `${s.y}%`,
-              width: s.size,
-              height: s.size,
-              borderRadius: s.type === 'circle' ? '50%' : '0',
-              border: '1px solid #eaeaea',
-              background: 'rgba(255,255,255,0.4)',
-              transform: `translate(${offsetX}px, ${offsetY}px)`,
-              animation: `float ${s.speed}s ease-in-out ${s.delay}s infinite alternate`,
+              transform: `translate(${px}px, ${py}px)`,
             }}
-          />
+          >
+            <div
+              style={{
+                width: s.size,
+                height: s.size,
+                borderRadius: s.type === 'circle' ? '50%' : '0',
+                border: '1px solid #eaeaea',
+                background: 'rgba(255,255,255,0.4)',
+                animation: `float ${s.speed}s ease-in-out ${s.delay}s infinite alternate`,
+              }}
+            />
+          </div>
         )
       })}
 
