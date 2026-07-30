@@ -2,3 +2,5 @@ node_modules
 dist
 *.tsbuildinfo
 pnpm-lock.yaml
+CLAUDE.md
+AGENTS.md
