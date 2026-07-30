@@ -1,17 +1,38 @@
 import { content } from '../content'
-import { useStaggeredReveal } from '../hooks/useReveal'
-import { useRef, useState } from 'react'
-import TechIcon from './TechIcons'
+import { useReveal } from '../hooks/useReveal'
+import { useEffect, useState } from 'react'
 
-const chipBgColors = [
-  '#fef08a', '#bfdbfe', '#fecaca', '#d1fae5',
-  '#e9d5ff', '#fed7aa', '#fecdd3', '#cffafe',
-  '#fef3c7', '#ddd6fe',
-]
+const iconSlug: Record<string, string> = {
+  html: 'html5',
+  css: 'css3',
+  javascript: 'javascript',
+  typescript: 'typescript',
+  reactjs: 'react',
+  tailwindcss: 'tailwindcss',
+  java: 'java',
+  postgresql: 'postgresql',
+  git: 'git',
+}
+
+const cols = 3
+const rows = 2
+const perPage = cols * rows
 
 export default function Skills() {
-  const skillCount = content.skills.length
-  const { ref, revealed, delays } = useStaggeredReveal<HTMLDivElement>(skillCount)
+  const { ref, revealed } = useReveal()
+  const skills = content.skills
+  const totalPages = Math.ceil(skills.length / perPage)
+  const [page, setPage] = useState(0)
+
+  useEffect(() => {
+    if (!revealed || totalPages <= 1) return
+    const timer = setInterval(() => {
+      setPage((p) => (p + 1) % totalPages)
+    }, 3000)
+    return () => clearInterval(timer)
+  }, [revealed, totalPages])
+
+  const go = (p: number) => setPage(p)
 
   return (
     <section
@@ -24,7 +45,11 @@ export default function Skills() {
     >
       <div
         ref={ref}
-        className={`reveal-stagger ${revealed ? 'revealed' : ''}`}
+        style={{
+          opacity: revealed ? 1 : 0,
+          transform: revealed ? 'translateY(0)' : 'translateY(30px)',
+          transition: 'opacity 0.6s ease, transform 0.6s ease',
+        }}
       >
         <h2
           style={{
@@ -47,91 +72,123 @@ export default function Skills() {
           }}
         />
 
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-          {content.skills.map((skill, i) => (
-            <SkillChip
-              key={skill.name}
-              skill={skill}
-              chipColor={chipBgColors[i % chipBgColors.length]}
-              delay={delays[i]}
-              revealed={revealed}
-            />
-          ))}
+        <div
+          style={{
+            position: 'relative',
+            overflow: 'hidden',
+            border: '3px solid #1a1a1a',
+            boxShadow: '6px 6px 0 #1a1a1a',
+            padding: '1rem',
+            background: '#fffdf9',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              transition: 'transform 0.5s ease',
+              transform: `translateX(-${page * 100}%)`,
+            }}
+          >
+            {Array.from({ length: totalPages }).map((_, pi) => (
+              <div
+                key={pi}
+                style={{
+                  minWidth: '100%',
+                  display: 'grid',
+                  gridTemplateColumns: `repeat(${cols}, 1fr)`,
+                  gap: '0.75rem',
+                }}
+              >
+                {skills.slice(pi * perPage, pi * perPage + perPage).map((skill) => {
+                  const key = skill.name.toLowerCase().replace(/[\s|/]/g, '')
+                  const slug = iconSlug[key] || key
+                  const iconUrl = `https://cdn.simpleicons.org/${slug}/${skill.color.replace('#', '')}`
+
+                  return (
+                    <div
+                      key={skill.name}
+                      style={{
+                        aspectRatio: '1 / 1',
+                        border: '3px solid #1a1a1a',
+                        boxShadow: '4px 4px 0 #1a1a1a',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '0.5rem',
+                        padding: '0.75rem',
+                        background: '#fffdf9',
+                        transition: 'all 0.15s ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translate(-2px, -2px)'
+                        e.currentTarget.style.boxShadow = '6px 6px 0 #1a1a1a'
+                        e.currentTarget.style.background = skill.color
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translate(0, 0)'
+                        e.currentTarget.style.boxShadow = '4px 4px 0 #1a1a1a'
+                        e.currentTarget.style.background = '#fffdf9'
+                      }}
+                    >
+                      <img
+                        src={iconUrl}
+                        alt={skill.name}
+                        style={{
+                          width: '48%',
+                          height: '48%',
+                          objectFit: 'contain',
+                          pointerEvents: 'none',
+                          filter: 'drop-shadow(1px 1px 0 rgba(0,0,0,0.1))',
+                        }}
+                      />
+                      <span
+                        style={{
+                          fontSize: '0.7rem',
+                          fontWeight: 600,
+                          textAlign: 'center',
+                          lineHeight: 1.2,
+                        }}
+                      >
+                        {skill.name}
+                      </span>
+                    </div>
+                  )
+                })}
+              </div>
+            ))}
+          </div>
         </div>
+
+        {totalPages > 1 && (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '0.5rem',
+              marginTop: '1.5rem',
+            }}
+          >
+            {Array.from({ length: totalPages }).map((_, i) => (
+              <button
+                key={i}
+                onClick={() => go(i)}
+                style={{
+                  width: 14,
+                  height: 14,
+                  border: '2px solid #1a1a1a',
+                  background: page === i ? '#1a1a1a' : '#fffdf9',
+                  cursor: 'pointer',
+                  padding: 0,
+                  transition: 'all 0.15s ease',
+                  boxShadow: page === i ? '2px 2px 0 #1a1a1a' : 'none',
+                }}
+                aria-label={`Page ${i + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
-  )
-}
-
-function SkillChip({
-  skill,
-  chipColor,
-  delay,
-  revealed,
-}: {
-  skill: (typeof content.skills)[number]
-  chipColor: string
-  delay: number
-  revealed: boolean
-}) {
-  const [tilt, setTilt] = useState({ x: 0, y: 0 })
-  const [burst, setBurst] = useState(false)
-  const elRef = useRef<HTMLDivElement>(null)
-
-  const handleMouse = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = elRef.current
-    if (!el) return
-    const rect = el.getBoundingClientRect()
-    const x = (e.clientX - rect.left) / rect.width - 0.5
-    const y = (e.clientY - rect.top) / rect.height - 0.5
-    setTilt({ x: x * 12, y: y * -12 })
-  }
-
-  const resetTilt = () => setTilt({ x: 0, y: 0 })
-
-  const handleEnter = () => {
-    setBurst(true)
-    setTimeout(() => setBurst(false), 300)
-  }
-
-  return (
-    <div
-      ref={elRef}
-      style={{
-        border: '2px solid #1a1a1a',
-        boxShadow: burst ? '2px 2px 0 #1a1a1a' : '4px 4px 0 #1a1a1a',
-        padding: '0.6rem 1.2rem',
-        fontWeight: 600,
-        fontSize: '0.9rem',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '0.65rem',
-        background: burst ? skill.color : chipColor,
-        color: burst ? '#fff' : '#1a1a1a',
-        cursor: 'default',
-        transition: `all 0.15s ease, transform 0.5s ease ${delay}s, opacity 0.5s ease ${delay}s`,
-        transform: revealed
-          ? `perspective(400px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`
-          : 'translateY(20px)',
-        opacity: revealed ? 1 : 0,
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-      onMouseMove={handleMouse}
-      onMouseLeave={(e) => {
-        resetTilt()
-        setBurst(false)
-        e.currentTarget.style.background = chipColor
-        e.currentTarget.style.color = '#1a1a1a'
-      }}
-      onMouseEnter={(e) => {
-        handleEnter()
-        e.currentTarget.style.background = skill.color
-        e.currentTarget.style.color = '#fff'
-      }}
-    >
-      <TechIcon name={skill.name} size={22} />
-      {skill.name}
-    </div>
   )
 }
