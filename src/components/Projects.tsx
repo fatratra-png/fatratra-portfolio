@@ -1,6 +1,11 @@
 import { content } from '../content'
+import { useStaggeredReveal } from '../hooks/useReveal'
+import { useRef, useState } from 'react'
 
 export default function Projects() {
+  const projectCount = content.projects.length
+  const { ref, revealed, delays } = useStaggeredReveal<HTMLDivElement>(projectCount)
+
   return (
     <section
       id="projects"
@@ -10,36 +15,44 @@ export default function Projects() {
         margin: '0 auto',
       }}
     >
-      <h2
-        style={{
-          fontSize: '2.5rem',
-          fontWeight: 700,
-          letterSpacing: '-0.03em',
-          marginBottom: '0.5rem',
-        }}
-      >
-        Projects
-      </h2>
+      <div ref={ref} className={`reveal-stagger ${revealed ? 'revealed' : ''}`}>
+        <h2
+          style={{
+            fontSize: '2.5rem',
+            fontWeight: 700,
+            letterSpacing: '-0.03em',
+            marginBottom: '0.5rem',
+          }}
+        >
+          Projects
+        </h2>
 
-      <div
-        style={{
-          width: 60,
-          height: 6,
-          background: '#1a1a1a',
-          marginBottom: '2rem',
-        }}
-      />
+        <div
+          style={{
+            width: 60,
+            height: 6,
+            background: '#1a1a1a',
+            marginBottom: '2rem',
+          }}
+        />
 
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-          gap: '1.5rem',
-        }}
-      >
-        {content.projects.map((project, i) => (
-          <ProjectCard key={project.id} project={project} index={i} />
-        ))}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+            gap: '1.5rem',
+          }}
+        >
+          {content.projects.map((project, i) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              index={i}
+              delay={delays[i]}
+              revealed={revealed}
+            />
+          ))}
+        </div>
       </div>
     </section>
   )
@@ -48,30 +61,55 @@ export default function Projects() {
 function ProjectCard({
   project,
   index,
+  delay,
+  revealed,
 }: {
   project: (typeof content.projects)[number]
   index: number
+  delay: number
+  revealed: boolean
 }) {
+  const [tilt, setTilt] = useState({ x: 0, y: 0 })
+  const cardRef = useRef<HTMLDivElement>(null)
+
   const accentColors = ['#fef08a', '#bfdbfe', '#fecaca', '#d1fae5', '#e9d5ff', '#fed7aa']
   const accent = accentColors[index % accentColors.length]
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = cardRef.current
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    const x = (e.clientX - rect.left) / rect.width - 0.5
+    const y = (e.clientY - rect.top) / rect.height - 0.5
+    setTilt({ x: x * 10, y: y * -10 })
+  }
+
+  const resetTilt = () => setTilt({ x: 0, y: 0 })
+
   return (
     <div
+      ref={cardRef}
       style={{
         border: '3px solid #1a1a1a',
         boxShadow: '6px 6px 0 #1a1a1a',
         padding: '1.5rem',
         background: '#fffdf9',
         position: 'relative',
-        transition: 'all 0.1s ease',
+        transition: `all 0.1s ease, transform 0.6s ease ${delay}s, opacity 0.6s ease ${delay}s`,
+        transform: revealed
+          ? `perspective(600px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`
+          : 'translateY(30px)',
+        opacity: revealed ? 1 : 0,
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={(e) => {
+        resetTilt()
+        e.currentTarget.style.transform = 'translate(0, 0)'
+        e.currentTarget.style.boxShadow = '6px 6px 0 #1a1a1a'
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = 'translate(-2px, -2px)'
         e.currentTarget.style.boxShadow = '8px 8px 0 #1a1a1a'
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = 'translate(0, 0)'
-        e.currentTarget.style.boxShadow = '6px 6px 0 #1a1a1a'
       }}
     >
       <div
@@ -89,7 +127,10 @@ function ProjectCard({
           justifyContent: 'center',
           fontWeight: 700,
           fontSize: '0.75rem',
+          transition: 'transform 0.2s ease',
         }}
+        onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.2) rotate(10deg)' }}
+        onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1) rotate(0deg)' }}
       >
         {String(project.id).padStart(2, '0')}
       </div>
@@ -136,6 +177,15 @@ function ProjectCard({
               background: accent,
               textTransform: 'uppercase',
               letterSpacing: '0.04em',
+              transition: 'all 0.15s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#1a1a1a'
+              e.currentTarget.style.color = accent
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = accent
+              e.currentTarget.style.color = '#1a1a1a'
             }}
           >
             {tag}
