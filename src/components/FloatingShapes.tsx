@@ -63,9 +63,9 @@ export default function FloatingShapes() {
         width="500"
         height="800"
         viewBox="0 0 300 400"
-        style={{ display: "block", filter: "blur(1px)" }}
+        style={{ display: "block", filter: "blur(2px)" }}
       >
-        <path ref={pathRef} fill="white" opacity={0.95} />
+        <path ref={pathRef} fill="white" opacity={1} />
       </svg>
     </div>
   );
