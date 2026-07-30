@@ -9,17 +9,15 @@ export default function FloatingShapes() {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    const el = document.getElementById("hero");
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([e]) => {
-        setVisible(e.isIntersecting);
-        hideRef.current = !e.isIntersecting;
-      },
-      { threshold: 0.1 },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
+    function onScroll() {
+      const threshold = window.innerHeight * 0.6;
+      const past = window.scrollY > threshold;
+      setVisible(!past);
+      hideRef.current = past;
+    }
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
@@ -69,7 +67,7 @@ export default function FloatingShapes() {
     function loop() {
       const t = timeRef.current;
       const target = hideRef.current ? 1 : 0;
-      splitRef.current += (target - splitRef.current) * 0.04;
+      splitRef.current += (target - splitRef.current) * 0.06;
       const split = Math.max(0, Math.min(1, splitRef.current));
 
       for (let i = 0; i < count; i++) {
