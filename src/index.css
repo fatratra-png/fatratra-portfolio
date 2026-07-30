@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background: #fffdf9;
+  color: #1a1a1a;
+  line-height: 1.6;
+}
+
+::selection {
+  background: #1a1a1a;
+  color: #fffdf9;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.neu-border {
+  border: 3px solid #1a1a1a;
+  box-shadow: 5px 5px 0 #1a1a1a;
+}
+
+.neu-border-sm {
+  border: 2px solid #1a1a1a;
+  box-shadow: 3px 3px 0 #1a1a1a;
+}
+
+.neu-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 1rem;
+  border: 3px solid #1a1a1a;
+  box-shadow: 4px 4px 0 #1a1a1a;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  background: #fffdf9;
+  color: #1a1a1a;
+  text-decoration: none;
+}
+
+.neu-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #1a1a1a;
+}
+
+.neu-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
