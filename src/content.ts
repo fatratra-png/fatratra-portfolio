@@ -83,6 +83,15 @@ export const content: Content = {
       githubUrl: "https://github.com/fatratra-png/the-404th-floor-project",
       logo: "/assets/404th-floor.png",
     },
+    {
+      id: 4,
+      title: "Feo",
+      description: "Ust a music app",
+      tags: ["React", "React Native", "TypeScript", "Tailwind"],
+      liveUrl: "still in progress",
+      githubUrl: "https://github.com/fatratra-png/feo",
+      logo: "/assets/feo.png",
+    },
   ],
 
   socials: [{ label: "GitHub", url: "https://github.com/fatratra-png" }],
