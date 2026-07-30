@@ -1,9 +1,18 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function FloatingShapes() {
   const pathRef = useRef<SVGPathElement>(null);
   const timeRef = useRef(0);
   const rafRef = useRef(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 768px)");
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
 
   useEffect(() => {
     const w = 300;
@@ -52,18 +61,24 @@ export default function FloatingShapes() {
     <div
       style={{
         position: "fixed",
-        bottom: "100px",
-        right: "500px",
+        bottom: isMobile ? "auto" : "100px",
+        right: isMobile ? "auto" : "500px",
+        top: isMobile ? "20px" : "auto",
+        left: isMobile ? "10px" : "auto",
         zIndex: 40,
         pointerEvents: "none",
         mixBlendMode: "difference",
+        opacity: isMobile ? 0.35 : 1,
+        transform: isMobile ? "scale(0.4)" : "scale(1)",
+        transformOrigin: "top left",
+        transition: "opacity 0.5s ease, transform 0.5s ease",
       }}
     >
       <svg
         width="500"
         height="800"
         viewBox="0 0 300 400"
-        style={{ display: "block", filter: "blur(2px)" }}
+        style={{ display: "block", filter: "blur(5px)" }}
       >
         <path ref={pathRef} fill="white" opacity={1} />
       </svg>

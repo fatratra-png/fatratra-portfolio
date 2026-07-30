@@ -8,7 +8,13 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      style={{ padding: "6rem 2rem", maxWidth: 1024, margin: "0 auto" }}
+      style={{
+        padding: "6rem 2rem",
+        maxWidth: 1024,
+        margin: "0 auto",
+        position: "relative",
+        zIndex: 45,
+      }}
     >
       <div
         style={{
@@ -43,7 +49,15 @@ export default function Projects() {
 
       <div
         ref={ref}
-        style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}
+        style={
+          count > 3
+            ? {
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(360px, 1fr))",
+                gap: "1.5rem",
+              }
+            : { display: "flex", flexDirection: "column", gap: "1.5rem" }
+        }
       >
         {content.projects.map((project, i) => (
           <ProjectCard
@@ -70,23 +84,19 @@ function ProjectCard({
   return (
     <div
       style={{
-        border: "1px solid #eaeaea",
-        borderRadius: "0.5rem",
-        padding: "2rem",
-        background: "#fff",
+        border: "1px solid #333",
+        borderRadius: "0.75rem",
+        padding: "1.5rem",
+        background: "#111",
         transition: `all 0.25s ease, opacity 0.6s ease ${delay}s, transform 0.6s ease ${delay}s`,
         opacity: revealed ? 1 : 0,
         transform: revealed ? "translateY(0)" : "translateY(20px)",
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = "#111";
-        e.currentTarget.style.boxShadow = "0 4px 20px rgba(0,0,0,0.06)";
-        e.currentTarget.style.transform = "translateY(-2px)";
+        e.currentTarget.style.borderColor = "#fff";
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = "#eaeaea";
-        e.currentTarget.style.boxShadow = "none";
-        e.currentTarget.style.transform = "translateY(0)";
+        e.currentTarget.style.borderColor = "#333";
       }}
     >
       <div
@@ -105,13 +115,14 @@ function ProjectCard({
               fontWeight: 600,
               letterSpacing: "-0.02em",
               marginBottom: "0.4rem",
+              color: "#fff",
             }}
           >
             {project.title}
           </h3>
           <p
             style={{
-              color: "#111",
+              color: "#aaa",
               fontSize: "0.9rem",
               lineHeight: 1.7,
               marginBottom: "1rem",
@@ -136,8 +147,8 @@ function ProjectCard({
                   padding: "0.15rem 0.5rem",
                   fontSize: "0.75rem",
                   fontWeight: 500,
-                  color: "#888",
-                  background: "#f5f5f5",
+                  color: "#aaa",
+                  background: "#222",
                   borderRadius: "0.2rem",
                 }}
               >
@@ -155,15 +166,15 @@ function ProjectCard({
                 style={{
                   fontSize: "0.85rem",
                   fontWeight: 500,
-                  color: "#111",
-                  borderBottom: "1px solid #ddd",
+                  color: "#fff",
+                  borderBottom: "1px solid #555",
                   transition: "border-color 0.2s",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = "#111";
+                  e.currentTarget.style.borderColor = "#fff";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "#ddd";
+                  e.currentTarget.style.borderColor = "#555";
                 }}
               >
                 Live
@@ -177,16 +188,16 @@ function ProjectCard({
                 style={{
                   fontSize: "0.85rem",
                   fontWeight: 500,
-                  color: "#888",
+                  color: "#666",
                   borderBottom: "1px solid transparent",
                   transition: "color 0.2s, border-color 0.2s",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.color = "#111";
-                  e.currentTarget.style.borderColor = "#ddd";
+                  e.currentTarget.style.color = "#fff";
+                  e.currentTarget.style.borderColor = "#555";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.color = "#888";
+                  e.currentTarget.style.color = "#666";
                   e.currentTarget.style.borderColor = "transparent";
                 }}
               >
@@ -201,7 +212,7 @@ function ProjectCard({
             style={{
               width: 80,
               height: 80,
-              border: "1px solid #eaeaea",
+              border: "1px solid #333",
               borderRadius: "0.5rem",
               overflow: "hidden",
               flexShrink: 0,
