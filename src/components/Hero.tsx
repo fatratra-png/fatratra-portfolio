@@ -44,10 +44,11 @@ export default function Hero() {
           style={{
             fontSize: '0.85rem',
             fontWeight: 500,
-            color: '#888',
+            color: '#727272',
             marginBottom: '1rem',
             letterSpacing: '0.05em',
             textTransform: 'uppercase',
+            mixBlendMode: 'difference',
           }}
         >
           {content.title}
@@ -57,10 +58,12 @@ export default function Hero() {
           style={{
             fontSize: 'clamp(2.5rem, 8vw, 4.5rem)',
             fontWeight: 600,
+            color: '#e9e9e9',
             letterSpacing: '-0.035em',
             lineHeight: 0.95,
             marginBottom: '1.5rem',
             maxWidth: 720,
+            mixBlendMode: 'difference',
           }}
         >
           {content.name}
@@ -69,11 +72,12 @@ export default function Hero() {
         <p
           style={{
             fontSize: '1.1rem',
-            color: '#666',
+            color: '#949494',
             maxWidth: 480,
             minHeight: '1.8em',
             marginBottom: '2.5rem',
             lineHeight: 1.5,
+            mixBlendMode: 'difference',
           }}
         >
           {displayed}
