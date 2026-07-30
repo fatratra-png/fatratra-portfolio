@@ -59,7 +59,7 @@ export const content: Content = {
       id: 1,
       title: "HEI STDhub",
       description:
-        "A web application for managing HEI students campus life,kinda intern social media, built with React and JavaScript.",
+        "STDhub. student platform made by HEI students for HEI students",
       tags: ["React", "JavaScript", "Tailwind", "ExpressJS", "PostgreSQL"],
       liveUrl: "https://hei-stdhub.vercel.app",
       githubUrl: "https://github.com/hei-tech-dev-team/hei-stdhub",
@@ -68,7 +68,8 @@ export const content: Content = {
     {
       id: 2,
       title: "irery",
-      description: "Built with React Native",
+      description:
+        'Did you ever wanted to be "irery" (alone) during night work sessions, Try "Irery" , designed to have the most simple UI ever , just launch on your phone , connect to any bluetooth device and ENJOY BEING IRERY',
       tags: ["React Native", "TypeScript", ""],
       liveUrl: "still in progress",
       githubUrl: "https://github.com/fatratra-png/irery",
@@ -77,7 +78,8 @@ export const content: Content = {
     {
       id: 3,
       title: "The 404th Floor",
-      description: "Vertical 404floors Escape game built in Typescript",
+      description:
+        "A vertical escape room in React & Tailwind, the user is trapped in a glitched elevator. To escape, they must repair each floor by solving barely fun puzzles",
       tags: ["React", "TypeScript", "Tailwind"],
       liveUrl: "still in progress",
       githubUrl: "https://github.com/fatratra-png/the-404th-floor-project",
@@ -86,7 +88,8 @@ export const content: Content = {
     {
       id: 4,
       title: "Feo",
-      description: "Ust a music app",
+      description:
+        "Fetching Youtube content using yt-dlp then integrating it in a frontend app using simple UX based on a simple search bar that returns the most matching content",
       tags: ["React", "React Native", "TypeScript", "Tailwind"],
       liveUrl: "still in progress",
       githubUrl: "https://github.com/fatratra-png/feo",
