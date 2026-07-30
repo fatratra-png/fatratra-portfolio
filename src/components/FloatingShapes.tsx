@@ -52,8 +52,8 @@ export default function FloatingShapes() {
     <div
       style={{
         position: 'fixed',
-        bottom: 0,
-        right: 0,
+        bottom: '200px',
+        right: '100px',
         zIndex: 40,
         pointerEvents: 'none',
         mixBlendMode: 'difference',
