@@ -35,8 +35,8 @@ export type Content = {
 export const content: Content = {
   name: "Ny Fatratra RAFANOMEZANTSOA",
   title:
-    "Backend Enthusiast UXUI Designer | Aspiring Mobile developer | Aspiring DevOps",
-  tagline: "",
+    "Backend Enthusiast | UXUI Designer | Aspiring Mobile developer | Aspiring DevOps",
+  tagline: "Like thunder gonna shake the ground !",
   avatar: "",
   about:
     "I am a passionate aspiring developer with a keen eye for design and a love for creating intuitive user experiences. With a strong foundation in web technologies and a drive to continuously learn, I strive to build applications that are not only functional but also visually appealing. My goal is to contribute to projects that make a positive impact and to grow as a developer in the ever-evolving tech landscape.",
@@ -52,6 +52,8 @@ export const content: Content = {
     { name: "Tailwind CSS", color: "#38b2ac" },
     { name: "Java", color: "#007396" },
     { name: "Spring", color: "" },
+    { name: "Kotlin", color: "" },
+    { name: "Dart", color: "" },
     { name: "OpenAPI", color: "" },
     { name: "PostgreSQL", color: "#336791" },
     { name: "Git", color: "#f05032" },
