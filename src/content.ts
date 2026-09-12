@@ -94,7 +94,7 @@ export const content: Content = {
                   description:
                         "Spring Boot backend for Haven -- serves daily quotes, mood journal entries and small rest sessions consumed by frontend mobile app version",
                   tags: ["Java", "Spring", "PostgreSQL"],
-                  liveUrl: "still in progress",
+                  liveUrl: "https://haven-api-lz01.onrender.com",
                   githubUrl: "https://github.com/fatratra-png/haven-api",
                   logo: "",
             },
