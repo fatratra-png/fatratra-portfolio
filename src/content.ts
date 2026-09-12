@@ -43,6 +43,7 @@ export const content: Content = {
       skills: [
             { name: "HTML5", color: "#e34c26" },
             { name: "CSS3", color: "#563d7c" },
+            { name: "SCSS", color: "" },
             { name: "JavaScript", color: "#f7df1e" },
             { name: "TypeScript", color: "#3178c6" },
             { name: "Express", color: "" },
