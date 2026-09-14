@@ -117,7 +117,7 @@ export const content: Content = {
             },
             {
                   label: "LinkedIn",
-                  url: "www.linkedin.com/in/ny-fatratra-rafanomezantsoa-87799b3a9",
+                  url: "https://www.linkedin.com/in/ny-fatratra-rafanomezantsoa-87799b3a9/",
             },
       ],
 
