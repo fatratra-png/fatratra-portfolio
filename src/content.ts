@@ -111,7 +111,8 @@ export const content: Content = {
     {
       id: 5,
       title: "Zahavan'ia",
-      description: "",
+      description:
+        "Zahavan'ia — Top 6 project at the 2026 FANILO Hackathon (IFM).",
       tags: ["Next.js", "TypeScript", "Openrouter", "Supabase", "Zod"],
       liveUrl: "https://zahavania.vercel.app/",
       githubUrl: "https://github.com/orbyte-1024/zahavania",
