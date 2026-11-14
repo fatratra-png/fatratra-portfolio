@@ -106,7 +106,7 @@ export const content: Content = {
       ],
       liveUrl: "still in progress",
       githubUrl: "https://github.com/erakdago/erakdago-api",
-      logo: "src/assets/erakdago.png",
+      logo: "assets/erakdago.png",
     },
     {
       id: 5,
@@ -115,7 +115,7 @@ export const content: Content = {
       tags: ["Next.js", "TypeScript", "Openrouter", "Supabase", "Zod"],
       liveUrl: "https://zahavania.vercel.app/",
       githubUrl: "https://github.com/orbyte-1024/zahavania",
-      logo: "src/assets/zahavania.png",
+      logo: "assets/zahavania.png",
     },
   ],
 
