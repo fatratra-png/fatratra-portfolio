@@ -4,3 +4,17 @@ dist
 pnpm-lock.yaml
 CLAUDE.md
 AGENTS.md
+.codebuddy
+.codewhale
+.continue
+.cursor
+.factory
+.gemini
+.kilocode
+.kiro
+.opencode
+.qoder
+.roo
+.trae
+.warp
+.windsurf
