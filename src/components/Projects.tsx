@@ -1,233 +1,186 @@
-import { content } from "../content";
-import { useStaggeredReveal } from "../hooks/useStaggeredReveal";
+import { content } from '../content'
+import { ArrowUpRightIcon } from './icons'
+
+const pad = (value: number) => String(value).padStart(2, '0')
 
 export default function Projects() {
-  const count = content.projects.length;
-  const { ref, revealed, delays } = useStaggeredReveal<HTMLDivElement>(count);
+  const total = content.projects.length
 
   return (
-    <section
-      id="projects"
-      style={{
-        padding: "6rem 2rem",
-        maxWidth: 1200,
-        margin: "0 auto",
-        position: "relative",
-        zIndex: 45,
-      }}
-    >
-      <div
-        style={{
-          marginBottom: "3rem",
-          opacity: revealed ? 1 : 0,
-          transform: revealed ? "translateY(0)" : "translateY(20px)",
-          transition: "opacity 0.6s ease, transform 0.6s ease",
-        }}
-      >
-        <p
-          style={{
-            fontSize: "0.8rem",
-            fontWeight: 500,
-            color: "#aaa",
-            letterSpacing: "0.08em",
-            textTransform: "uppercase",
-            marginBottom: "0.5rem",
-          }}
-        >
-          Work
-        </p>
-        <h2
-          style={{
-            fontSize: "2rem",
-            fontWeight: 600,
-            letterSpacing: "-0.03em",
-          }}
-        >
-          Projects
-        </h2>
+    <section id="work" className="section work">
+      <div className="wrap">
+        <header className="section-head" data-reveal>
+          <p className="label">
+            Selected work / {pad(total)} {total === 1 ? 'project' : 'projects'}
+          </p>
+          <div className="section-head__row">
+            <h2 className="section-title">
+              Things I&apos;ve<br />
+              helped build.
+            </h2>
+            <p className="section-head__note">
+              One project per screen — scroll for the story, the stack and the
+              links.
+            </p>
+          </div>
+        </header>
       </div>
 
-      <div
-        ref={ref}
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))",
-          gap: "1.5rem",
-        }}
-      >
-        {content.projects.map((project, i) => (
-          <ProjectCard
+      <div className="chapters">
+        {content.projects.map((project, index) => (
+          <article
             key={project.id}
-            project={project}
-            delay={delays[i]}
-            revealed={revealed}
-          />
+            className={`chapter${index % 2 ? ' chapter--flip' : ''}`}
+            aria-labelledby={`project-${project.id}`}
+          >
+            <div className="wrap chapter__inner">
+              <p className="chapter__meta">
+                <span>
+                  <span className="chapter__num">{pad(index + 1)}</span> /{' '}
+                  {pad(total)}
+                </span>
+                {project.liveUrl ? (
+                  <span className="chapter__state">
+                    <span className="live-dot" aria-hidden="true" />
+                    {project.liveLabel ?? 'Live'}
+                  </span>
+                ) : (
+                  <span className="chapter__state">Open source</span>
+                )}
+              </p>
+
+              <div className="chapter__grid">
+                <div className="chapter__body" data-reveal>
+                  <h3
+                    className="chapter__title"
+                    id={`project-${project.id}`}
+                  >
+                    {project.title}
+                  </h3>
+                  <p className="chapter__desc">{project.description}</p>
+
+                  <div className="chapter__links">
+                    {project.liveUrl && (
+                      <a
+                        className="btn btn--solid"
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${project.liveLabel ?? 'Visit the live site'} — ${project.title}`}
+                      >
+                        {project.liveLabel ?? 'Visit live site'}
+                        <ArrowUpRightIcon className="icon icon--sm" />
+                      </a>
+                    )}
+                    <a
+                      className="btn"
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`View the code for ${project.title}`}
+                    >
+                      View code
+                      <ArrowUpRightIcon className="icon icon--sm" />
+                    </a>
+                  </div>
+                </div>
+
+                <figure className="chapter__figure" data-reveal>
+                  <div className={`chapter__plate cover--${project.id}`}>
+                    {project.logo ? (
+                      <img
+                        src={project.logo}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        onError={(event) => {
+                          event.currentTarget.style.display = 'none'
+                        }}
+                      />
+                    ) : (
+                      <HavenMock />
+                    )}
+                  </div>
+                  <figcaption className="chapter__caption">
+                    <span className="chapter__caption-label">Built with</span>
+                    <span className="chapter__stack">
+                      {project.tags.map((tag) => (
+                        <span key={tag}>{tag}</span>
+                      ))}
+                    </span>
+                  </figcaption>
+                </figure>
+              </div>
+            </div>
+          </article>
         ))}
       </div>
+
+      <div className="wrap">
+        <div className="work__more" data-reveal>
+          <p>More experiments and half-finished ideas live on GitHub.</p>
+          <a
+            className="text-link"
+            href="https://github.com/fatratra-png"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Visit my GitHub
+            <ArrowUpRightIcon className="icon icon--xs" />
+          </a>
+        </div>
+      </div>
     </section>
-  );
+  )
 }
 
-function ProjectCard({
-  project,
-  delay,
-  revealed,
-}: {
-  project: (typeof content.projects)[number];
-  delay: number;
-  revealed: boolean;
-}) {
+function HavenMock() {
   return (
-    <div
-      style={{
-        border: "1px solid #333",
-        borderRadius: "0.75rem",
-        padding: "clamp(1rem, 2vw, 1.5rem)",
-        background: "#111",
-        transition: `all 0.25s ease, opacity 0.6s ease ${delay}s, transform 0.6s ease ${delay}s`,
-        opacity: revealed ? 1 : 0,
-        transform: revealed ? "translateY(0)" : "translateY(20px)",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = "#fff";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = "#333";
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "flex-start",
-          justifyContent: "space-between",
-          gap: "1rem",
-          flexWrap: "wrap",
-        }}
-      >
-        <div style={{ flex: 1 }}>
-          <h3
-            style={{
-              fontSize: "1.2rem",
-              fontWeight: 600,
-              letterSpacing: "-0.02em",
-              marginBottom: "0.4rem",
-              color: "#fff",
-            }}
-          >
-            {project.title}
-          </h3>
-          <p
-            style={{
-              color: "#aaa",
-              fontSize: "0.9rem",
-              lineHeight: 1.7,
-              marginBottom: "1rem",
-            }}
-          >
-            {project.description}
-          </p>
+    <div className="api-cover" aria-hidden="true">
+      <div className="api-cover__head">
+        <span className="api-cover__name">haven-api</span>
+        <span className="api-cover__meta">
+          <span className="api-cover__dot" />
+          OAS 3.0 / v1
+        </span>
+      </div>
 
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "0.4rem",
-              marginBottom: "1rem",
-            }}
-          >
-            {project.tags.filter(Boolean).map((tag) => (
-              <span
-                key={tag}
-                style={{
-                  padding: "0.15rem 0.5rem",
-                  fontSize: "0.75rem",
-                  fontWeight: 500,
-                  color: "#aaa",
-                  background: "#222",
-                  borderRadius: "0.2rem",
-                }}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
+      <ul className="api-cover__routes">
+        <li>
+          <span className="api-cover__method">GET</span>
+          <code>/api/quotes/today</code>
+          <span className="api-cover__code-status">200</span>
+        </li>
+        <li>
+          <span className="api-cover__method">GET</span>
+          <code>/api/journal</code>
+          <span className="api-cover__code-status">200</span>
+        </li>
+        <li>
+          <span className="api-cover__method api-cover__method--post">POST</span>
+          <code>/api/journal</code>
+          <span className="api-cover__code-status">201</span>
+        </li>
+      </ul>
 
-          <div style={{ display: "flex", gap: "1rem" }}>
-            {project.liveUrl && project.liveUrl !== "still in progress" && (
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  fontSize: "0.85rem",
-                  fontWeight: 500,
-                  color: "#fff",
-                  borderBottom: "1px solid #555",
-                  transition: "border-color 0.2s",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = "#fff";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "#555";
-                }}
-              >
-                Live
-              </a>
-            )}
-            {project.githubUrl && (
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  fontSize: "0.85rem",
-                  fontWeight: 500,
-                  color: "#666",
-                  borderBottom: "1px solid transparent",
-                  transition: "color 0.2s, border-color 0.2s",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = "#fff";
-                  e.currentTarget.style.borderColor = "#555";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = "#666";
-                  e.currentTarget.style.borderColor = "transparent";
-                }}
-              >
-                Code
-              </a>
-            )}
-          </div>
-        </div>
-
-        {project.logo && (
-          <div
-            style={{
-              width: "clamp(60px, 10vw, 80px)",
-              height: "clamp(60px, 10vw, 80px)",
-              border: "1px solid #333",
-              borderRadius: "0.5rem",
-              overflow: "hidden",
-              flexShrink: 0,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "0.5rem",
-            }}
-          >
-            <img
-              src={project.logo}
-              alt=""
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              onError={(e) => {
-                (e.currentTarget as HTMLImageElement).style.display = "none";
-              }}
-            />
-          </div>
-        )}
+      <div className="api-cover__response">
+        <span className="api-cover__response-label">Response / today</span>
+        <pre className="api-cover__code">
+          <code>
+            {'{\n  '}
+            <span className="api-cover__key">&quot;quote&quot;</span>
+            {': '}
+            <span className="api-cover__string">
+              &quot;Rest is part of the work.&quot;
+            </span>
+            {',\n  '}
+            <span className="api-cover__key">&quot;mood&quot;</span>
+            {': '}
+            <span className="api-cover__string">&quot;calm&quot;</span>
+            {'\n}'}
+          </code>
+        </pre>
       </div>
     </div>
-  );
+  )
 }

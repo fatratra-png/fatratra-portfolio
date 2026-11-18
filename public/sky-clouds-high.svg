@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="560" viewBox="0 0 2400 560" fill="none" aria-hidden="true">
+  <g fill="#b9d1ec" opacity="0.55" transform="translate(0 20)">
+    <ellipse cx="170" cy="196" rx="118" ry="40"/>
+    <ellipse cx="300" cy="184" rx="150" ry="50"/>
+    <ellipse cx="420" cy="198" rx="112" ry="38"/>
+    <ellipse cx="250" cy="146" rx="86" ry="44"/>
+    <ellipse cx="360" cy="146" rx="68" ry="36"/>
+    <ellipse cx="820" cy="118" rx="86" ry="28"/>
+    <ellipse cx="910" cy="108" rx="112" ry="38"/>
+    <ellipse cx="990" cy="120" rx="82" ry="26"/>
+    <ellipse cx="870" cy="80" rx="60" ry="30"/>
+    <ellipse cx="1500" cy="308" rx="120" ry="38"/>
+    <ellipse cx="1620" cy="292" rx="144" ry="46"/>
+    <ellipse cx="1740" cy="310" rx="112" ry="36"/>
+    <ellipse cx="1590" cy="252" rx="84" ry="38"/>
+    <ellipse cx="2100" cy="148" rx="106" ry="34"/>
+    <ellipse cx="2210" cy="134" rx="134" ry="42"/>
+    <ellipse cx="2330" cy="150" rx="94" ry="32"/>
+    <ellipse cx="2180" cy="94" rx="74" ry="34"/>
+  </g>
+  <g fill="#f9fcff">
+    <ellipse cx="170" cy="196" rx="110" ry="52"/>
+    <ellipse cx="300" cy="184" rx="142" ry="68"/>
+    <ellipse cx="420" cy="198" rx="104" ry="48"/>
+    <ellipse cx="250" cy="146" rx="80" ry="58"/>
+    <ellipse cx="360" cy="146" rx="62" ry="46"/>
+    <ellipse cx="820" cy="118" rx="80" ry="34"/>
+    <ellipse cx="910" cy="108" rx="106" ry="48"/>
+    <ellipse cx="990" cy="120" rx="76" ry="30"/>
+    <ellipse cx="870" cy="80" rx="54" ry="36"/>
+    <ellipse cx="1500" cy="308" rx="114" ry="46"/>
+    <ellipse cx="1620" cy="292" rx="138" ry="62"/>
+    <ellipse cx="1740" cy="310" rx="106" ry="42"/>
+    <ellipse cx="1590" cy="252" rx="78" ry="48"/>
+    <ellipse cx="2100" cy="148" rx="100" ry="42"/>
+    <ellipse cx="2210" cy="134" rx="128" ry="58"/>
+    <ellipse cx="2330" cy="150" rx="88" ry="38"/>
+    <ellipse cx="2180" cy="94" rx="68" ry="46"/>
+    <ellipse cx="1180" cy="212" rx="92" ry="16" opacity="0.7"/>
+    <ellipse cx="1270" cy="204" rx="66" ry="12" opacity="0.55"/>
+  </g>
+</svg>

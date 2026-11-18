@@ -1,200 +1,137 @@
+import { useEffect, useRef, useState } from 'react'
 import { content } from '../content'
-import { useEffect, useState } from 'react'
+import { useActiveSection } from '../hooks/useActiveSection'
+import { ArrowUpRightIcon, GitHubIcon, LinkedInIcon } from './icons'
 
-const links = ['about', 'skills', 'projects', 'contact']
+const links = [
+  { id: 'about', label: 'About' },
+  { id: 'work', label: 'Work' },
+  { id: 'stack', label: 'Stack' },
+  { id: 'contact', label: 'Contact' },
+]
 
-function useMediaQuery(query: string) {
-  const [matches, setMatches] = useState(
-    () => window.matchMedia(query).matches,
-  )
-  useEffect(() => {
-    const mq = window.matchMedia(query)
-    const handler = (e: MediaQueryListEvent) => setMatches(e.matches)
-    mq.addEventListener('change', handler)
-    return () => mq.removeEventListener('change', handler)
-  }, [query])
-  return matches
-}
+const sectionIds = links.map((link) => link.id)
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
-  const [active, setActive] = useState('')
   const [menuOpen, setMenuOpen] = useState(false)
-  const isMobile = useMediaQuery('(max-width: 768px)')
+  const active = useActiveSection(sectionIds)
+  const menuRef = useRef<HTMLDivElement>(null)
+  const toggleRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60)
-    window.addEventListener('scroll', onScroll)
+    const onScroll = () => setScrolled(window.scrollY > 12)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) setActive(e.target.id)
-        }
-      },
-      { threshold: 0.25, rootMargin: '-80px 0px 0px 0px' },
+  useEffect(() => {
+    if (!menuOpen) return
+
+    const previousOverflow = document.body.style.overflow
+    const inertTargets = Array.from(
+      document.querySelectorAll<HTMLElement>('main, footer'),
     )
+    document.body.style.overflow = 'hidden'
+    inertTargets.forEach((el) => el.setAttribute('inert', ''))
 
-    for (const id of links) {
-      const el = document.getElementById(id)
-      if (el) observer.observe(el)
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false)
+        toggleRef.current?.focus()
+      }
     }
+    document.addEventListener('keydown', onKeyDown)
+    menuRef.current?.querySelector<HTMLAnchorElement>('a')?.focus()
 
     return () => {
-      window.removeEventListener('scroll', onScroll)
-      observer.disconnect()
+      document.body.style.overflow = previousOverflow
+      inertTargets.forEach((el) => el.removeAttribute('inert'))
+      document.removeEventListener('keydown', onKeyDown)
     }
-  }, [])
+  }, [menuOpen])
+
+  const closeMenu = () => setMenuOpen(false)
 
   return (
     <header
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 50,
-        background: scrolled || menuOpen ? 'rgba(250,250,250,0.85)' : 'transparent',
-        backdropFilter: scrolled || menuOpen ? 'blur(12px)' : 'none',
-        borderBottom: scrolled || menuOpen ? '1px solid #eaeaea' : '1px solid transparent',
-        transition: 'all 0.3s ease',
-      }}
+      className={`nav${scrolled || menuOpen ? ' is-solid' : ''}${menuOpen ? ' is-menu' : ''}`}
     >
-      <nav
-        style={{
-          maxWidth: 1200,
-          margin: '0 auto',
-          padding: '1rem 2rem',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
+      <div className="nav__inner wrap">
         <a
-          href="#"
-          style={{
-            fontWeight: 600,
-            fontSize: '1.1rem',
-            letterSpacing: '-0.02em',
-          }}
+          className="nav__wordmark"
+          href="#top"
+          aria-label={`${content.shortName} — back to top`}
+          onClick={closeMenu}
         >
-          {content.name.split(' ').pop()}
+          {content.shortName.toLowerCase()}<span>.</span>
         </a>
 
-        {isMobile ? (
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              width: 32,
-              height: 32,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: '5px',
-              padding: 0,
-              position: 'relative',
-            }}
-          >
-            <span
-              style={{
-                display: 'block',
-                width: 22,
-                height: 2,
-                background: '#111',
-                borderRadius: 1,
-                transition: 'all 0.3s ease',
-                transform: menuOpen ? 'translateY(7px) rotate(45deg)' : 'none',
-                transformOrigin: 'center',
-              }}
-            />
-            <span
-              style={{
-                display: 'block',
-                width: 22,
-                height: 2,
-                background: '#111',
-                borderRadius: 1,
-                transition: 'all 0.25s ease',
-                opacity: menuOpen ? 0 : 1,
-              }}
-            />
-            <span
-              style={{
-                display: 'block',
-                width: 22,
-                height: 2,
-                background: '#111',
-                borderRadius: 1,
-                transition: 'all 0.3s ease',
-                transform: menuOpen ? 'translateY(-7px) rotate(-45deg)' : 'none',
-                transformOrigin: 'center',
-              }}
-            />
-          </button>
-        ) : (
-          <div style={{ display: 'flex', gap: '1.5rem' }}>
-            {links.map((id) => (
-              <a
-                key={id}
-                href={`#${id}`}
-                style={{
-                  fontSize: '0.85rem',
-                  fontWeight: 500,
-                  color: id === active ? '#111' : '#888',
-                  transition: 'color 0.15s',
-                  borderBottom: id === active ? '1px solid #111' : '1px solid transparent',
-                  paddingBottom: '0.15rem',
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = '#111' }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = id === active ? '#111' : '#888' }}
-              >
-                {id.charAt(0).toUpperCase() + id.slice(1)}
-              </a>
-            ))}
-          </div>
-        )}
-      </nav>
+        <nav className="nav__links" aria-label="Primary">
+          {links.map((link) => (
+            <a
+              key={link.id}
+              href={`#${link.id}`}
+              className={`nav__link${active === link.id ? ' is-active' : ''}`}
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
 
-      {isMobile && (
-        <div
-          style={{
-            maxHeight: menuOpen ? 260 : 0,
-            overflow: 'hidden',
-            transition: 'max-height 0.4s ease, opacity 0.3s ease',
-            opacity: menuOpen ? 1 : 0,
-          }}
-        >
-          <div
-            style={{
-              padding: menuOpen ? '0.5rem 2rem 1rem' : '0 2rem',
-              display: 'flex',
-              flexDirection: 'column',
-            }}
+        <div className="nav__end">
+          <a className="btn btn--ink nav__cta" href={`mailto:${content.email}`}>
+            Email me
+            <ArrowUpRightIcon className="icon icon--sm" />
+          </a>
+          <button
+            ref={toggleRef}
+            type="button"
+            className={`nav__toggle${menuOpen ? ' is-open' : ''}`}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            onClick={() => setMenuOpen((open) => !open)}
           >
-            {links.map((id) => (
-              <a
-                key={id}
-                href={`#${id}`}
-                onClick={() => setMenuOpen(false)}
-                style={{
-                  fontSize: '0.95rem',
-                  fontWeight: 500,
-                  color: id === active ? '#111' : '#888',
-                  padding: '0.75rem 0',
-                  borderBottom: '1px solid #f0f0f0',
-                  transition: 'color 0.15s',
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = '#111' }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = id === active ? '#111' : '#888' }}
-              >
-                {id.charAt(0).toUpperCase() + id.slice(1)}
+            <span />
+            <span />
+          </button>
+        </div>
+      </div>
+
+      {menuOpen && (
+        <div id="mobile-menu" className="mobile-menu" ref={menuRef}>
+          <nav className="mobile-menu__links" aria-label="Mobile">
+            {links.map((link) => (
+              <a key={link.id} href={`#${link.id}`} onClick={closeMenu}>
+                {link.label}
+                <ArrowUpRightIcon className="icon" />
               </a>
             ))}
+          </nav>
+
+          <div className="mobile-menu__foot">
+            <a className="mobile-menu__email" href={`mailto:${content.email}`}>
+              {content.email}
+            </a>
+            <div className="mobile-menu__socials">
+              {content.socials.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {social.label === 'GitHub' ? (
+                    <GitHubIcon className="icon icon--sm" />
+                  ) : (
+                    <LinkedInIcon className="icon icon--sm" />
+                  )}
+                  {social.label}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       )}

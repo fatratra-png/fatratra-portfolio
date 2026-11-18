@@ -3,11 +3,55 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Ny Fatratra Rafanomezantsoa — backend and mobile developer in Antananarivo, Madagascar. Quiet systems, loud interfaces."
+    />
+    <meta name="theme-color" content="#e9eff7" />
     <link rel="icon" type="image/png" href="/fatratra.png" />
-    <title>Fatratra</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Fatratra — Backend and mobile developer"
+    />
+    <meta
+      property="og:description"
+      content="Backend and mobile developer in Antananarivo. Quiet systems, loud interfaces."
+    />
+    <meta property="og:image" content="/fatratra.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>Fatratra — Backend and mobile developer</title>
+    <style>
+      #boot {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        padding: 0 clamp(1.25rem, 4vw, 3.5rem);
+        background: #e9eff7;
+        color: #7a8aa4;
+        font-family: 'Space Mono', ui-monospace, monospace;
+        font-weight: 700;
+        font-size: clamp(0.5rem, 1.1vw, 0.85rem);
+        line-height: 1.9;
+        letter-spacing: 0.12em;
+        text-align: center;
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div id="boot" aria-hidden="true">
+        01100110 01100001 01110100 01110010 01100001 01110100 01110010 01100001
+        00101110
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

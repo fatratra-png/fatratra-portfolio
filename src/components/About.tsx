@@ -1,85 +1,54 @@
-import { content } from "../content";
-import { useReveal } from "../hooks/useStaggeredReveal";
+import { content } from '../content'
+import { ArrowUpRightIcon } from './icons'
 
 export default function About() {
-  const { ref, revealed } = useReveal();
-
   return (
-    <section
-      id="about"
-      style={{
-        padding: "6rem 2rem",
-        maxWidth: 768,
-        margin: "0 auto",
-      }}
-    >
-      <div
-        ref={ref}
-        style={{
-          opacity: revealed ? 1 : 0,
-          transform: revealed ? "translateY(0)" : "translateY(20px)",
-          transition: "opacity 0.6s ease, transform 0.6s ease",
-        }}
-      >
-        <p
-          style={{
-            fontSize: "0.8rem",
-            fontWeight: 500,
-            color: "#aaa",
-            letterSpacing: "0.08em",
-            textTransform: "uppercase",
-            marginBottom: "0.5rem",
-            mixBlendMode: "difference",
-          }}
-        >
-          About
-        </p>
+    <section id="about" className="section about">
+      <div className="wrap about__grid">
+        <div className="about__rail" data-reveal>
+          <p className="label">About</p>
+          <figure className="about__stamp">
+            <img src="/fatratra.png" alt="" aria-hidden="true" loading="lazy" />
+          </figure>
+        </div>
 
-        <h2
-          style={{
-            fontSize: "2rem",
-            fontWeight: 600,
-            letterSpacing: "-0.03em",
-            marginBottom: "1.5rem",
-            color: "#000",
-            mixBlendMode: "difference",
-          }}
-        >
-          {content.name.split(" ").pop()}
-        </h2>
+        <div className="about__body">
+          <h2 className="section-title" data-reveal>
+            Quiet systems.<br />
+            <span className="mark">Loud</span> interfaces.
+          </h2>
 
-        <div
-          style={{
-            width: "3rem",
-            height: "2px",
-            background: "#111",
-            marginBottom: "1.5rem",
-          }}
-        />
+          <div className="about__text" data-reveal style={{ transitionDelay: '80ms' }}>
+            {content.about.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
 
-        <p
-          style={{
-            color: "#000",
-            fontSize: "1.05rem",
-            lineHeight: 1.8,
-            maxWidth: 600,
-            // mixBlendMode: "difference",
-          }}
-        >
-          {content.about}
-        </p>
-
-        <div
-          style={{
-            marginTop: "2rem",
-            fontSize: "0.85rem",
-            color: "#000",
-            mixBlendMode: "difference",
-          }}
-        >
-          {content.location}
+          <dl className="facts" data-reveal style={{ transitionDelay: '160ms' }}>
+            <div>
+              <dt>Based</dt>
+              <dd>{content.location}</dd>
+            </div>
+            <div>
+              <dt>Focus</dt>
+              <dd>Backend and mobile</dd>
+            </div>
+            <div>
+              <dt>Learning</dt>
+              <dd>DevOps &amp; mobile</dd>
+            </div>
+            <div>
+              <dt>Inbox</dt>
+              <dd>
+                <a className="text-link" href={`mailto:${content.email}`}>
+                  {content.email}
+                  <ArrowUpRightIcon className="icon icon--xs" />
+                </a>
+              </dd>
+            </div>
+          </dl>
         </div>
       </div>
     </section>
-  );
+  )
 }
