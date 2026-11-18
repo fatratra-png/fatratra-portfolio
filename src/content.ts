@@ -4,13 +4,16 @@ export type Project = {
   description: string;
   tags: string[];
   liveUrl: string;
+  liveLabel?: string;
   githubUrl: string;
   logo: string;
 };
 
+export type SkillGroup = "Interfaces" | "Backend" | "Mobile" | "Tools";
+
 export type Skill = {
   name: string;
-  color: string;
+  group: SkillGroup;
 };
 
 export type Social = {
@@ -20,11 +23,11 @@ export type Social = {
 
 export type Content = {
   name: string;
-  title: string;
+  shortName: string;
+  role: string;
   tagline: string;
-  avatar: string;
-  about: string;
-  resumeUrl: string;
+  lede: string;
+  about: string[];
   skills: Skill[];
   projects: Project[];
   socials: Social[];
@@ -34,30 +37,32 @@ export type Content = {
 
 export const content: Content = {
   name: "Ny Fatratra RAFANOMEZANTSOA",
-  title:
-    "Backend Enthusiast | UXUI Designer | Aspiring Mobile developer | Aspiring DevOps",
-  tagline: "Like thunder gonna shake the ground !",
-  avatar: "",
-  about:
-    "I am a passionate aspiring developer with a keen eye for design and a love for creating intuitive user experiences. With a strong foundation in web technologies and a drive to continuously learn, I strive to build applications that are not only functional but also visually appealing. My goal is to contribute to projects that make a positive impact and to grow as a developer in the ever-evolving tech landscape.",
+  shortName: "Fatratra",
+  role: "Backend and mobile developer",
+  tagline: "Like thunder gonna shake the ground!",
+  lede: "I build the backend, then the mobile app you actually touch. Quiet systems, loud interfaces.",
 
-  resumeUrl: "",
+  about: [
+    "I'm Ny Fatratra, a backend and mobile developer in Antananarivo. I started with interfaces — the details people feel but never name. Then I moved into backend, because I wanted those interfaces to hold up under real use.",
+    "These days I work across React, React Native, Java/Spring and PostgreSQL. I like APIs that stay boring and screens that don't.",
+  ],
+
   skills: [
-    { name: "TypeScript", color: "#3178c6" },
-    { name: "React", color: "#61dafb" },
-    { name: "Next", color: "#000000" },
-    { name: "Express", color: "" },
-    { name: "React Native", color: "#61dafb" },
-    { name: "Java", color: "#007396" },
-    { name: "REST API", color: "" },
-    { name: "SpringBoot", color: "" },
-    { name: "Kotlin", color: "" },
-    { name: "Dart", color: "" },
-    { name: "PostgreSQL", color: "#336791" },
-    { name: "Supabase", color: "#3ECF8E" },
-    { name: "Git", color: "#f05032" },
-    { name: "GitHub", color: "" },
-    { name: "Vercel", color: "#000000" },
+    { name: "TypeScript", group: "Interfaces" },
+    { name: "React", group: "Interfaces" },
+    { name: "Next.js", group: "Interfaces" },
+    { name: "Java", group: "Backend" },
+    { name: "Spring Boot", group: "Backend" },
+    { name: "Express", group: "Backend" },
+    { name: "REST APIs", group: "Backend" },
+    { name: "PostgreSQL", group: "Backend" },
+    { name: "Supabase", group: "Backend" },
+    { name: "React Native", group: "Mobile" },
+    { name: "Kotlin", group: "Mobile" },
+    { name: "Dart", group: "Mobile" },
+    { name: "Git", group: "Tools" },
+    { name: "GitHub", group: "Tools" },
+    { name: "Vercel", group: "Tools" },
   ],
 
   projects: [
@@ -65,9 +70,9 @@ export const content: Content = {
       id: 1,
       title: "HEI STDhub",
       description:
-        "STDhub. student platform made by HEI students for HEI students",
-      tags: ["React", "JavaScript", "Tailwind", "ExpressJS", "PostgreSQL"],
-      liveUrl: "still in progress",
+        "A student platform built by HEI students, for HEI students — one shared home for campus life and its community.",
+      tags: ["React", "JavaScript", "Tailwind", "Express", "PostgreSQL"],
+      liveUrl: "",
       githubUrl: "https://github.com/hei-tech-dev-team/hei-stdhub",
       logo: "/assets/hei-stdhub.png",
     },
@@ -75,9 +80,9 @@ export const content: Content = {
       id: 2,
       title: "Irery",
       description:
-        'Did you ever wanted to be "irery" (alone) during night work sessions, Try "Irery" , designed to have the most simple UI ever , just launch on your phone , connect to any bluetooth device and ENJOY BEING IRERY',
+        "A deliberately minimal night-session companion. Launch it, connect any Bluetooth device and enjoy being irery — alone on your own terms.",
       tags: ["React Native", "TypeScript"],
-      liveUrl: "still in progress",
+      liveUrl: "",
       githubUrl: "https://github.com/fatratra-png/irery",
       logo: "/assets/irery.png",
     },
@@ -85,9 +90,10 @@ export const content: Content = {
       id: 3,
       title: "Haven API",
       description:
-        "Spring Boot backend for Haven -- serves daily quotes, mood journal entries and small rest sessions consumed by frontend mobile app version",
-      tags: ["Java", "SpringBoot", "PostgreSQL"],
+        "A Spring Boot API for Haven: daily quotes, mood journal entries and short rest sessions, served to the mobile app.",
+      tags: ["Java", "Spring Boot", "PostgreSQL"],
       liveUrl: "https://haven-api-lz01.onrender.com/api/quotes/today",
+      liveLabel: "Live API",
       githubUrl: "https://github.com/fatratra-png/haven-api",
       logo: "",
     },
@@ -95,28 +101,40 @@ export const content: Content = {
       id: 4,
       title: "Erakdago",
       description:
-        "E-rakdago, providing an interactive experience to discover Madagascar, explore destinations, plan trips, share experiences, and connect with the local tourism ecosystem.",
+        "An interactive way to discover Madagascar — explore destinations, plan trips and connect with the local tourism ecosystem.",
       tags: [
         "React Native",
         "Google Maps API",
-        "Expo location",
+        "Expo Location",
         "Java",
-        "SpringBoot",
+        "Spring Boot",
         "PostgreSQL",
       ],
-      liveUrl: "still in progress",
+      liveUrl: "",
       githubUrl: "https://github.com/erakdago/erakdago-api",
-      logo: "assets/erakdago.png",
+      logo: "/assets/erakdago.png",
     },
     {
       id: 5,
       title: "Zahavan'ia",
       description:
-        "Zahavan'ia — Top 6 project at the 2026 FANILO Hackathon (IFM).",
-      tags: ["Next.js", "TypeScript", "Openrouter", "Supabase", "Zod"],
+        "A Next.js experience that placed top 6 at the 2026 FANILO Hackathon (IFM).",
+      tags: ["Next.js", "TypeScript", "OpenRouter", "Supabase", "Zod"],
       liveUrl: "https://zahavania.vercel.app/",
+      liveLabel: "Visit site",
       githubUrl: "https://github.com/orbyte-1024/zahavania",
-      logo: "assets/zahavania.png",
+      logo: "/assets/zahavania.png",
+    },
+    {
+      id: 6,
+      title: "Feo",
+      description:
+        "A music player built on the YouTube catalogue, with an AI that keeps the music going: endless radio, playlists from a sentence and mixes that learn your taste.",
+      tags: ["React", "Expo", "TypeScript", "PostgreSQL", "OpenRouter"],
+      liveUrl: "https://feo-swart.vercel.app",
+      liveLabel: "Visit site",
+      githubUrl: "https://github.com/fatratra-png/feo",
+      logo: "/assets/feo.png",
     },
   ],
 

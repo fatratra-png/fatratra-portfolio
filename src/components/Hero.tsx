@@ -1,138 +1,105 @@
 import { content } from '../content'
-import { useEffect, useState } from 'react'
+import LocalTime from './LocalTime'
+import { ArrowDownIcon, ArrowUpRightIcon, BoltIcon } from './icons'
 
-function useTyping(text: string, speed = 30) {
-  const [displayed, setDisplayed] = useState('')
-  const [done, setDone] = useState(false)
-
-  useEffect(() => {
-    if (!text || done) return
-    let i = 0
-    setDisplayed('')
-    const interval = setInterval(() => {
-      setDisplayed(text.slice(0, i + 1))
-      i++
-      if (i >= text.length) {
-        clearInterval(interval)
-        setDone(true)
-      }
-    }, speed)
-    return () => clearInterval(interval)
-  }, [text, speed, done])
-
-  return { displayed, done }
+function BoltBadge() {
+  return (
+    <div className="badge" aria-hidden="true">
+      <svg className="badge__ring" viewBox="0 0 200 200">
+        <defs>
+          <path
+            id="badge-ring"
+            d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"
+          />
+        </defs>
+        <text>
+          <textPath
+            href="#badge-ring"
+            startOffset="0"
+            textLength="480"
+            lengthAdjust="spacing"
+          >
+            BACKEND DEVELOPER / MOBILE DEVELOPER / DEVOPS /
+          </textPath>
+        </text>
+      </svg>
+      <span className="badge__core">
+        <BoltIcon className="badge__bolt" />
+      </span>
+    </div>
+  )
 }
 
 export default function Hero() {
-  const { displayed, done } = useTyping(content.tagline || 'Building things that live on the internet.')
-
   return (
-    <section
-      id="hero"
-      style={{
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        padding: '6rem 2rem 4rem',
-        maxWidth: 1200,
-        margin: '0 auto',
-      }}
-    >
-      <div>
-        <p
-          style={{
-            fontSize: '0.85rem',
-            fontWeight: 500,
-            color: '#727272',
-            marginBottom: '1rem',
-            letterSpacing: '0.05em',
-            textTransform: 'uppercase',
-            mixBlendMode: 'difference',
-          }}
-        >
-          {content.title}
-        </p>
+    <section id="top" className="hero">
+      <div className="wrap hero__wrap">
+        <div className="hero__meta">
+          <p>{content.name}</p>
+          <p>Portfolio / 2026</p>
+        </div>
 
-        <h1
-          style={{
-            fontSize: 'clamp(2.5rem, 8vw, 4.5rem)',
-            fontWeight: 600,
-            color: '#e9e9e9',
-            letterSpacing: '-0.035em',
-            lineHeight: 0.95,
-            marginBottom: '1.5rem',
-            maxWidth: 720,
-            mixBlendMode: 'difference',
-          }}
-        >
-          {content.name}
-        </h1>
+        <div className="hero__grid">
+          <div className="hero__main">
+            <h1 className="hero__title">
+              {content.shortName.toLowerCase()}
+              <span className="hero__dot">.</span>
+            </h1>
+            <p className="hero__surname">Rafanomezantsoa</p>
 
-        <p
-          style={{
-            fontSize: '1.1rem',
-            color: '#949494',
-            maxWidth: 480,
-            minHeight: '1.8em',
-            marginBottom: '2.5rem',
-            lineHeight: 1.5,
-            mixBlendMode: 'difference',
-          }}
-        >
-          {displayed}
-          {!done && (
-            <span
-              style={{
-                display: 'inline-block',
-                width: 2,
-                height: '1.2em',
-                background: '#111',
-                marginLeft: 2,
-                verticalAlign: 'text-bottom',
-                animation: 'cursor-pulse 0.8s step-end infinite',
-              }}
-            />
-          )}
-        </p>
+            <div className="hero__intro">
+              <p className="hero__role">{content.role}</p>
+              <p className="hero__lede">{content.lede}</p>
+            </div>
 
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-          <a
-            href="#projects"
-            style={{
-              padding: '0.75rem 2rem',
-              fontWeight: 500,
-              fontSize: '0.9rem',
-              background: '#e9e9e9',
-              color: '#000',
-              borderRadius: '0.25rem',
-              transition: 'opacity 0.2s',
-              mixBlendMode: 'difference',
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.8' }}
-            onMouseLeave={(e) => { e.currentTarget.style.opacity = '1' }}
-          >
-            See my work
+            <div className="hero__actions">
+              <a className="btn btn--solid" href="#work">
+                See selected work
+                <ArrowDownIcon className="icon icon--sm" />
+              </a>
+              <a className="btn" href={`mailto:${content.email}`}>
+                Email me
+                <ArrowUpRightIcon className="icon icon--sm" />
+              </a>
+            </div>
+          </div>
+
+          <aside className="hero__poster">
+            <BoltIcon className="hero__watermark" />
+            <BoltBadge />
+            <div className="hero__poster-foot">
+              <p className="hero__tagline">{content.tagline}</p>
+              <p className="hero__poster-meta">
+                {content.location}
+                <br />
+                Portfolio / 2026
+              </p>
+            </div>
+          </aside>
+        </div>
+
+        <div className="hero__foot">
+          <a className="hero__scroll" href="#about">
+            Scroll to explore
+            <ArrowDownIcon className="icon icon--sm" />
           </a>
-          {content.resumeUrl && (
-            <a
-              href={content.resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                padding: '0.75rem 2rem',
-                fontWeight: 500,
-                fontSize: '0.9rem',
-                border: '1px solid #ddd',
-                borderRadius: '0.25rem',
-                transition: 'border-color 0.2s',
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#111' }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#ddd' }}
-            >
-              Resume
-            </a>
-          )}
+
+          <dl className="hero__facts">
+            <div>
+              <dt>Based in</dt>
+              <dd>Antananarivo, MG</dd>
+            </div>
+            <div>
+              <dt>Focus</dt>
+              <dd>Backend + Mobile</dd>
+            </div>
+            <div>
+              <dt>Local time</dt>
+              <dd>
+                <LocalTime />
+              </dd>
+            </div>
+          </dl>
         </div>
       </div>
     </section>
