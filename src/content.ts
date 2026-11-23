@@ -136,6 +136,16 @@ export const content: Content = {
       githubUrl: "https://github.com/fatratra-png/feo",
       logo: "/assets/feo.png",
     },
+    {
+      id:7,
+      title: "Aahaarloop",
+      description:"Countering food surplus app in India - Conceived during Codebenders ACE BUILDERS Hackathon 2026",
+      tags:["Next.js","TypeScript","Neon","Sightengine","React Native"],
+      liveUrl:"https://aahaarloop.vercel.app",
+      liveLabel:"Visit site",
+      githubUrl:"https://github.com/dinozaoro/aahaarloop",
+      logo:"/assets/aahaarloop.png"
+    }
   ],
 
   socials: [
